@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane onMouseClicked="#onMouseClicked" prefHeight="0.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xy.hkxannoeditor.controller.FailedViewController">
+    <Label fx:id="errorText" alignment="CENTER" contentDisplay="CENTER" text="&quot;当前目录下不存在hkanno64.exe!&quot;" textAlignment="CENTER" textFill="#f54242" textOverrun="WORD_ELLIPSIS" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="51.0" AnchorPane.topAnchor="35">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+</AnchorPane>
