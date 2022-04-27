@@ -5,42 +5,57 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+@SpringBootApplication
 public class EditorApplication extends Application {
     public static String DUMP_COMMAND;
     public static String UPDATE_COMMAND;
+    private static ConfigurableApplicationContext context;
 
     @Override
     public void start(Stage stage) throws IOException {
         try {
             dirProcess();
-            showMainWindow(stage);
+            setMainWindow(stage);
         } catch (URISyntaxException | NotFindHkanno64Exception e) {
-            System.out.println(e.getMessage());
-            showFailedWindow(stage);
+            setFailedWindow(stage);
         }
-    }
-
-    private void showMainWindow(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(EditorApplication.class.getResource("editor-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
-        stage.setTitle("HkxAnnoEditor");
-        stage.setScene(scene);
         stage.show();
     }
 
-    private void showFailedWindow(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(EditorApplication.class.getResource("failed-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(),300,100);
+    @Override
+    public void init() {
+        context = SpringApplication.run(EditorApplication.class);
+    }
+
+    @Override
+    public void stop() {
+        context.stop();
+    }
+
+    private void setMainWindow(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(EditorApplication.class.getResource("/fxml/editor-view.fxml"));
+        fxmlLoader.setControllerFactory(param -> context.getBean(param));
+        Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
+        stage.setTitle("HkxAnnoEditor");
+        stage.setScene(scene);
+    }
+
+    private void setFailedWindow(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(EditorApplication.class.getResource("/fxml/failed-view.fxml"));
+        fxmlLoader.setControllerFactory(param -> context.getBean(param));
+        Scene scene = new Scene(fxmlLoader.load(), 300, 100);
         stage.setTitle("Error");
         stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.setScene(scene);
-        stage.show();
     }
 
     /**

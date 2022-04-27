@@ -1,0 +1,38 @@
+spring:
+  main:
+    web-application-type: none
+    allow-bean-definition-overriding: true
+
+anno:
+  common:
+    CastOKStart: CastOKStart
+    preHitFrame: preHitFrame
+    weaponSwing: weaponSwing
+    weaponLeftSwing: weaponLeftSwing
+    HitFrame: HitFrame
+    2_HitFrame: 2_HitFrame
+    MeleeTrace_Right_Start: MeleeTrace_Right_Start
+    MeleeTrace_Right_Stop: MeleeTrace_Right_Stop
+    MeleeTrace_Left_Start: MeleeTrace_Left_Start
+    MeleeTrace_Left_Stop: MeleeTrace_Left_Stop
+  skysa:
+    SkySA_TriggerIntervalWin: SkySA_TriggerIntervalWin
+    SkySA_AttackWinStart: SkySA_AttackWinStart
+    SkySA_AttackLoop: SkySA_AttackLoop
+    SkySA_AttackWinEnd: SkySA_AttackWinEnd
+    SkySA_TriggerIntervalWinLoop: SkySA_TriggerIntervalWinLoop
+    attackStop: attackStop
+    attackStart: attackStart
+    attackpowerstartforward: attackpowerstartforward
+  amr:
+    animmotion: animmotion
+    animrotation: animrotation
+  mco:
+    MCO_WinOpen: MCO_WinOpen
+    MCO_WinClose: MCO_WinClose
+    MCO_PowerWinOpen: MCO_PowerWinOpen
+    MCO_PowerWinClose: MCO_PowerWinClose
+    MCO_Recovery: MCO_Recovery
+    MCO_TransitionOpen: MCO_TransitionOpen
+    MCO_TransitionClose: MCO_TransitionClose
+    MCO_ChargedAttack: MCO_ChargedAttack

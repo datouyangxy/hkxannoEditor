@@ -1,31 +1,65 @@
 package com.xy.hkxannoeditor.controller;
 
-import com.xy.hkxannoeditor.core.annoManager.FixManager;
-import com.xy.hkxannoeditor.core.annoManager.SimpleRenamer;
+import com.xy.hkxannoeditor.config.MyProperties;
+import com.xy.hkxannoeditor.core.AnnoManager;
+import com.xy.hkxannoeditor.core.editManager.EditManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-import java.io.IOException;
+import java.io.File;
 
+@Controller
 public class EditorController {
+    private MyProperties properties;
+    private AnnoManager manager;
     @FXML
-    private Label welcomeText;
+    private TreeView fileTree;
+    @FXML
+    private MenuItem closeMenuItem;
+    @FXML
+    private VBox rootLayout;
+    @FXML
+    private MenuItem openMenuItem;
+    @Autowired
+    public void setProperties(MyProperties properties) {
+        this.properties = properties;
+    }
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    /**
-     * simply performs dump, fix, and update action for FIXER
-     */
-    private static void simpleFix(FixManager fixer) throws IOException {
-        fixer.dumpAnno();
-        fixer.fixAnno();
-        fixer.updateAnno();
+    public void openDirectory(ActionEvent actionEvent) {
+        File rootDir = ChooseDir();
+        manager = new EditManager(rootDir);
+        fileTree = manager.createFileTree();
     }
 
-    private static void simpleRename(SimpleRenamer renamer) {
-        renamer.rename();
+    @FXML
+    protected void closeApp(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    protected void quitApp(ActionEvent actionEvent) {
+        getStage().close();
+    }
+
+    private Stage getStage() {
+        return (Stage) rootLayout.getScene().getWindow();
+    }
+
+    private File ChooseDir() {
+        DirectoryChooser dirChooser = new DirectoryChooser();
+        dirChooser.setTitle("请选择动作文件目录");
+//        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        return dirChooser.showDialog(getStage());
     }
 }
