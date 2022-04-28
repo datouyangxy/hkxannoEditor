@@ -1,8 +1,8 @@
 package com.xy.hkxannoeditor.controller;
 
 import com.xy.hkxannoeditor.config.MyProperties;
-import com.xy.hkxannoeditor.core.AnnoManager;
-import com.xy.hkxannoeditor.core.editManager.EditManager;
+import com.xy.hkxannoeditor.entity.bo.HkxFile;
+import com.xy.hkxannoeditor.service.EditorService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -10,26 +10,28 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
 
 @Controller
 public class EditorController {
-    private MyProperties properties;
-    private AnnoManager manager;
+
+    private final MyProperties properties;
+
+    private final EditorService editor;
     @FXML
-    private TreeView fileTree;
+    private TreeView<HkxFile> fileTree;
     @FXML
     private MenuItem closeMenuItem;
     @FXML
     private VBox rootLayout;
     @FXML
     private MenuItem openMenuItem;
-    @Autowired
-    public void setProperties(MyProperties properties) {
+
+    public EditorController(MyProperties properties, EditorService editor) {
         this.properties = properties;
+        this.editor = editor;
     }
 
     @FXML
@@ -38,8 +40,9 @@ public class EditorController {
 
     public void openDirectory(ActionEvent actionEvent) {
         File rootDir = ChooseDir();
-        manager = new EditManager(rootDir);
-        fileTree = manager.createFileTree();
+        editor.setRoot(rootDir);
+        fileTree.setRoot(editor.createRoot());
+        fileTree.refresh();
     }
 
     @FXML
