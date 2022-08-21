@@ -24,10 +24,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-
 /**
- * Properties specific to JHipster.
- *
  * <p> Properties are configured in the application.yml file. </p>
  */
 @Data
@@ -37,9 +34,14 @@ public class MyProperties {
 
     private Map<String, String> common;
 
-    private Map<String, String> skysa;
-
     private Map<String, String> amr;
 
     private Map<String, String> mco;
+
+    private Map<String, String> scar;
+
+    private Map<String, String> precision;
+
+    private Map<String, String> tdm;
+
 }

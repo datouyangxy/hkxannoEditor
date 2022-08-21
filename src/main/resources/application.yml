@@ -2,7 +2,6 @@ spring:
   main:
     web-application-type: none
     allow-bean-definition-overriding: true
-
 anno:
   common:
     CastOKStart: CastOKStart
@@ -11,19 +10,7 @@ anno:
     weaponLeftSwing: weaponLeftSwing
     HitFrame: HitFrame
     2_HitFrame: 2_HitFrame
-    MeleeTrace_Right_Start: MeleeTrace_Right_Start
-    MeleeTrace_Right_Stop: MeleeTrace_Right_Stop
-    MeleeTrace_Left_Start: MeleeTrace_Left_Start
-    MeleeTrace_Left_Stop: MeleeTrace_Left_Stop
-  skysa:
-    SkySA_TriggerIntervalWin: SkySA_TriggerIntervalWin
-    SkySA_AttackWinStart: SkySA_AttackWinStart
-    SkySA_AttackLoop: SkySA_AttackLoop
-    SkySA_AttackWinEnd: SkySA_AttackWinEnd
-    SkySA_TriggerIntervalWinLoop: SkySA_TriggerIntervalWinLoop
-    attackStop: attackStop
-    attackStart: attackStart
-    attackpowerstartforward: attackpowerstartforward
+    SoundPlay: SoundPlay
   amr:
     animmotion: animmotion
     animrotation: animrotation
@@ -36,3 +23,19 @@ anno:
     MCO_TransitionOpen: MCO_TransitionOpen
     MCO_TransitionClose: MCO_TransitionClose
     MCO_ChargedAttack: MCO_ChargedAttack
+  scar:
+    SCAR_ComboStart: SCAR_ComboStart
+    SCAR_ActionData: SCAR_ActionData
+  precision:
+    Collision_AttackStart: Collision_AttackStart
+    Collision_AttackEnd: Collision_AttackEnd
+    Collision_Add: Collision_Add
+  tdm:
+    MeleeTrace_Right_Start: MeleeTrace_Right_Start
+    MeleeTrace_Right_Stop: MeleeTrace_Right_Stop
+    MeleeTrace_Left_Start: MeleeTrace_Left_Start
+    MeleeTrace_Left_Stop: MeleeTrace_Left_Stop
+logging:
+  level:
+    com.xy.hkxannoeditor: debug
+

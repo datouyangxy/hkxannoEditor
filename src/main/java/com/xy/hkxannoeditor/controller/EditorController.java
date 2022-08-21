@@ -6,18 +6,27 @@ import com.xy.hkxannoeditor.service.EditorService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
+import java.util.Map;
 
+import static javafx.scene.input.MouseButton.PRIMARY;
+
+@Slf4j
 @Controller
 public class EditorController {
 
     private final MyProperties properties;
+    private final Map<String, HkxFile> fileContainer;
 
     private final EditorService editor;
     @FXML
@@ -29,29 +38,31 @@ public class EditorController {
     @FXML
     private MenuItem openMenuItem;
 
-    public EditorController(MyProperties properties, EditorService editor) {
+    public EditorController(MyProperties properties, @Qualifier("fileContainer") Map<String, HkxFile> fileContainer, EditorService editor) {
         this.properties = properties;
+        this.fileContainer = fileContainer;
         this.editor = editor;
     }
 
     @FXML
-    protected void onHelloButtonClick() {
+    private void onHelloButtonClick() {
     }
 
-    public void openDirectory(ActionEvent actionEvent) {
+    @FXML
+    private void openDirectory(ActionEvent actionEvent) {
         File rootDir = ChooseDir();
-        editor.setRoot(rootDir);
+        editor.updateRoot(rootDir);
         fileTree.setRoot(editor.createRoot());
         fileTree.refresh();
     }
 
     @FXML
-    protected void closeApp(ActionEvent actionEvent) {
+    private void closeApp(ActionEvent actionEvent) {
 
     }
 
     @FXML
-    protected void quitApp(ActionEvent actionEvent) {
+    private void quitApp(ActionEvent actionEvent) {
         getStage().close();
     }
 
@@ -64,5 +75,17 @@ public class EditorController {
         dirChooser.setTitle("请选择动作文件目录");
 //        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         return dirChooser.showDialog(getStage());
+    }
+
+    @FXML
+    private void onClickTreeItem(MouseEvent mouseEvent) {
+        TreeItem<HkxFile> item = fileTree.getSelectionModel().getSelectedItem();
+        if (PRIMARY.equals(mouseEvent.getButton()) && item != null && item.isLeaf()) {
+            HkxFile file = item.getValue();
+            log.debug(file.toString());
+            if (fileContainer.get(file.toString()) == null)
+                editor.dumpAnno(file);
+
+        }
     }
 }

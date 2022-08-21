@@ -1,16 +1,23 @@
 package com.xy.hkxannoeditor.entity.bo.annotations;
 
 import com.xy.hkxannoeditor.entity.enums.AnnoType;
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 
 import static com.xy.hkxannoeditor.entity.enums.AnnoType.STANDARD;
 
+@Setter
+@Getter
 public class StandardAnno extends HkxAnno {
-    private Double timePoint;
-    private final static String outTemplate = "{0} {1}";
 
-    public StandardAnno(Double timePoint,String name) {
+
+    private final static String outTemplate = "{0} {1}{2}";
+    private String payload = "";
+
+    public StandardAnno(Double timePoint, String name) {
         super(name);
         this.timePoint = timePoint;
     }
@@ -20,16 +27,10 @@ public class StandardAnno extends HkxAnno {
         return STANDARD;
     }
 
-    public void setTimePoint(Double timePoint) {
-        this.timePoint = timePoint;
-    }
-
-    public Double getTimePoint() {
-        return timePoint;
-    }
-
     @Override
     public String toString() {
-        return MessageFormat.format(outTemplate,String.format("%.6f",timePoint),getName());
+        if (StringUtils.isNotEmpty(payload))
+            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint), name, "." + payload);
+        return MessageFormat.format(outTemplate, String.format("%.6f", timePoint), name, payload);
     }
 }

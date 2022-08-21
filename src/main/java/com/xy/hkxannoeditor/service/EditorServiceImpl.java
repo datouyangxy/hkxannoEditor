@@ -4,22 +4,31 @@ import com.xy.hkxannoeditor.entity.bo.HkxFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import static com.xy.hkxannoeditor.EditorApplication.DUMP_COMMAND;
-import static com.xy.hkxannoeditor.EditorApplication.UPDATE_COMMAND;
+import static com.xy.hkxannoeditor.Const.DUMP_COMMAND_TEMPLATE;
+import static com.xy.hkxannoeditor.Const.UPDATE_COMMAND_TEMPLATE;
+import static com.xy.hkxannoeditor.utils.FileUtil.readFile;
+import static java.lang.ProcessBuilder.Redirect.INHERIT;
 
 @Service
+@Slf4j
 public class EditorServiceImpl implements EditorService {
     private File root;
-    private final List<HkxFile> hkxFileList = new ArrayList<>();
+    private final Map<String, HkxFile> hkxFileMap;
 
-    public void setRoot(File root) {
+    public EditorServiceImpl(@Qualifier("fileContainer") Map<String, HkxFile> hkxFileMap) {
+        this.hkxFileMap = hkxFileMap;
+    }
+
+    public void updateRoot(File root) {
         this.root = root;
     }
 
@@ -27,30 +36,47 @@ public class EditorServiceImpl implements EditorService {
         return root;
     }
 
-    public List<HkxFile> getHkxFileList() {
-        return hkxFileList;
-    }
-
     public void dumpAnno(HkxFile file) {
-        exceCmd(file, DUMP_COMMAND);
+        executeCmd(file, DUMP_COMMAND_TEMPLATE);
+        try {
+            file.setOriginAnno(readFile(file.getTxt()));
+            deserialization(file.getOriginAnno());
+        } catch (IOException e) {
+            file.setOriginAnno(null);
+            log.error(e.getMessage());
+        }
+        hkxFileMap.put(file.toString(), file);
     }
 
     /**
      * update fixed annos to txt files.
      */
     public void updateAnno(HkxFile file) {
-        exceCmd(file, UPDATE_COMMAND);
+        executeCmd(file, UPDATE_COMMAND_TEMPLATE);
     }
 
-    private void exceCmd(HkxFile file, String commandTemplate) {
+    @Override
+    public void deserialization(String anno) {
+
+    }
+
+    private void executeCmd(HkxFile file, String commandTemplate) {
+        String txtPath = file.getTxt().getPath();
+        String hkxPath = file.getHkx().getPath();
+        String command = String.format(commandTemplate, txtPath, hkxPath);
+        List<String> c = List.of(command.split(" "));
         try {
-            String txtPath = file.getTxt().getPath();
-            String hkxPath = file.getHkx().getPath();
-            String command = String.format(commandTemplate, txtPath, hkxPath);
-            if (Runtime.getRuntime().exec(command).waitFor() == 0) {
-            }
-        } catch (IOException | InterruptedException e) {
-            System.out.println(e.getMessage());
+            ProcessBuilder pb = new ProcessBuilder(c);
+            pb.redirectOutput(INHERIT);
+            pb.redirectError(INHERIT);
+            Process process = pb.start();
+//            outputStream(process.getInputStream());
+            process.waitFor();
+        } catch (IOException ignored) {
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

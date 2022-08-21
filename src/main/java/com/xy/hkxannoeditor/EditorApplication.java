@@ -15,8 +15,7 @@ import java.net.URISyntaxException;
 
 @SpringBootApplication
 public class EditorApplication extends Application {
-    public static String DUMP_COMMAND;
-    public static String UPDATE_COMMAND;
+
     private static ConfigurableApplicationContext context;
 
     @Override
@@ -68,8 +67,5 @@ public class EditorApplication extends Application {
 
         if (!hkanno64.exists())
             throw new NotFindHkanno64Exception("Error: Hkanno64 not found in current directory, please make sure you have hkanno64.exe it in " + currPath);
-
-        DUMP_COMMAND = String.format(Const.DUMP_COMMAND_TEMPLATE, hka64Str, "%s", "%s");
-        UPDATE_COMMAND = String.format(Const.UPDATE_COMMAND_TEMPLATE, hka64Str, "%s", "%s");
     }
 }

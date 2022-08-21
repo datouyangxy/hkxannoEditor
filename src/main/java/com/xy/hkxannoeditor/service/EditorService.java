@@ -6,7 +6,7 @@ import javafx.scene.control.TreeItem;
 import java.io.File;
 
 public interface EditorService {
-    void setRoot(File root);
+    void updateRoot(File root);
 
     File getRoot();
 
@@ -15,4 +15,6 @@ public interface EditorService {
     void dumpAnno(HkxFile file);
 
     void updateAnno(HkxFile file);
+
+    void deserialization(String anno);
 }

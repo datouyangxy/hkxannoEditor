@@ -1,9 +1,12 @@
 package com.xy.hkxannoeditor.entity.bo.annotations;
 
 import com.xy.hkxannoeditor.entity.enums.AnnoType;
+import lombok.Data;
 
+@Data
 public abstract class HkxAnno {
-    private final String name;
+    protected final String name;
+    protected Double timePoint;
 
     protected HkxAnno(String name) {
         this.name = name;
