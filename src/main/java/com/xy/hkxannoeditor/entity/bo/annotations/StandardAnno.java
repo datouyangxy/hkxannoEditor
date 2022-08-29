@@ -7,24 +7,27 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 
-import static com.xy.hkxannoeditor.entity.enums.AnnoType.STANDARD;
-
 @Setter
 @Getter
 public class StandardAnno extends HkxAnno {
-
-
     private final static String outTemplate = "{0} {1}{2}";
     private String payload = "";
+    private final AnnoType annoType;
 
-    public StandardAnno(Double timePoint, String name) {
-        super(name);
-        this.timePoint = timePoint;
+    public StandardAnno(Float timePoint, String name, AnnoType annoType) {
+        super(timePoint, name);
+        this.annoType = annoType;
+    }
+
+    public StandardAnno(Float timePoint, String name, String payload, AnnoType annoType) {
+        super(timePoint, name);
+        this.payload = payload;
+        this.annoType = annoType;
     }
 
     @Override
     public AnnoType getType() {
-        return STANDARD;
+        return annoType;
     }
 
     @Override

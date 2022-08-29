@@ -6,9 +6,10 @@ import lombok.Data;
 @Data
 public abstract class HkxAnno {
     protected final String name;
-    protected Double timePoint;
+    protected Float timePoint;
 
-    protected HkxAnno(String name) {
+    protected HkxAnno(Float timePoint, String name) {
+        this.timePoint = timePoint;
         this.name = name;
     }
 

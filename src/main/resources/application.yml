@@ -2,39 +2,8 @@ spring:
   main:
     web-application-type: none
     allow-bean-definition-overriding: true
-anno:
-  common:
-    CastOKStart: CastOKStart
-    preHitFrame: preHitFrame
-    weaponSwing: weaponSwing
-    weaponLeftSwing: weaponLeftSwing
-    HitFrame: HitFrame
-    2_HitFrame: 2_HitFrame
-    SoundPlay: SoundPlay
-  amr:
-    animmotion: animmotion
-    animrotation: animrotation
-  mco:
-    MCO_WinOpen: MCO_WinOpen
-    MCO_WinClose: MCO_WinClose
-    MCO_PowerWinOpen: MCO_PowerWinOpen
-    MCO_PowerWinClose: MCO_PowerWinClose
-    MCO_Recovery: MCO_Recovery
-    MCO_TransitionOpen: MCO_TransitionOpen
-    MCO_TransitionClose: MCO_TransitionClose
-    MCO_ChargedAttack: MCO_ChargedAttack
-  scar:
-    SCAR_ComboStart: SCAR_ComboStart
-    SCAR_ActionData: SCAR_ActionData
-  precision:
-    Collision_AttackStart: Collision_AttackStart
-    Collision_AttackEnd: Collision_AttackEnd
-    Collision_Add: Collision_Add
-  tdm:
-    MeleeTrace_Right_Start: MeleeTrace_Right_Start
-    MeleeTrace_Right_Stop: MeleeTrace_Right_Stop
-    MeleeTrace_Left_Start: MeleeTrace_Left_Start
-    MeleeTrace_Left_Stop: MeleeTrace_Left_Stop
+  profiles:
+    active: anno
 logging:
   level:
     com.xy.hkxannoeditor: debug

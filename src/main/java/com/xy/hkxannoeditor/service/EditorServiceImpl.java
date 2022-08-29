@@ -40,7 +40,7 @@ public class EditorServiceImpl implements EditorService {
         executeCmd(file, DUMP_COMMAND_TEMPLATE);
         try {
             file.setOriginAnno(readFile(file.getTxt()));
-            deserialization(file.getOriginAnno());
+            file.deserialization();
         } catch (IOException e) {
             file.setOriginAnno(null);
             log.error(e.getMessage());
@@ -55,11 +55,6 @@ public class EditorServiceImpl implements EditorService {
         executeCmd(file, UPDATE_COMMAND_TEMPLATE);
     }
 
-    @Override
-    public void deserialization(String anno) {
-
-    }
-
     private void executeCmd(HkxFile file, String commandTemplate) {
         String txtPath = file.getTxt().getPath();
         String hkxPath = file.getHkx().getPath();
@@ -70,7 +65,6 @@ public class EditorServiceImpl implements EditorService {
             pb.redirectOutput(INHERIT);
             pb.redirectError(INHERIT);
             Process process = pb.start();
-//            outputStream(process.getInputStream());
             process.waitFor();
         } catch (IOException ignored) {
         } catch (InterruptedException e) {

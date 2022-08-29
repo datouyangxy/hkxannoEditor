@@ -1,8 +1,9 @@
 package com.xy.hkxannoeditor.entity.enums;
 
 public enum AnnoType {
-    META,
-    STANDARD,
+    COMMON,
+    MCO,
+    PRECISION,
     AMR,
     SCAR
 }

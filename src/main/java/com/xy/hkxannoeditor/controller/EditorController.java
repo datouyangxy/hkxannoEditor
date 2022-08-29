@@ -1,13 +1,11 @@
 package com.xy.hkxannoeditor.controller;
 
-import com.xy.hkxannoeditor.config.MyProperties;
+import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
 import com.xy.hkxannoeditor.service.EditorService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -25,10 +23,22 @@ import static javafx.scene.input.MouseButton.PRIMARY;
 @Controller
 public class EditorController {
 
-    private final MyProperties properties;
+    private final AnnoProperties properties;
     private final Map<String, HkxFile> fileContainer;
-
     private final EditorService editor;
+
+    @FXML
+    private ScrollPane editUI;
+    @FXML
+    private TitledPane annoPane;
+    @FXML
+    private TitledPane commonPane;
+    @FXML
+    private TitledPane amrPane;
+    @FXML
+    private TitledPane scarPane;
+    @FXML
+    private TitledPane customPane;
     @FXML
     private TreeView<HkxFile> fileTree;
     @FXML
@@ -38,7 +48,7 @@ public class EditorController {
     @FXML
     private MenuItem openMenuItem;
 
-    public EditorController(MyProperties properties, @Qualifier("fileContainer") Map<String, HkxFile> fileContainer, EditorService editor) {
+    public EditorController(AnnoProperties properties, @Qualifier("fileContainer") Map<String, HkxFile> fileContainer, EditorService editor) {
         this.properties = properties;
         this.fileContainer = fileContainer;
         this.editor = editor;
@@ -85,7 +95,11 @@ public class EditorController {
             log.debug(file.toString());
             if (fileContainer.get(file.toString()) == null)
                 editor.dumpAnno(file);
-
+            annoPane.setExpanded(true);
+            commonPane.setExpanded(true);
+            amrPane.setExpanded(true);
+            scarPane.setExpanded(true);
+            customPane.setExpanded(true);
         }
     }
 }

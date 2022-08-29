@@ -1,0 +1,67 @@
+anno:
+  common:
+    - CastOKStart
+    - preHitFrame
+    - preHitFrame
+    - weaponSwing
+    - weaponLeftSwing
+    - HitFrame
+    - 2_HitFrame
+    - SoundPlay
+    - PIE
+  mco:
+    - MCO_WinOpen
+    - MCO_WinClose
+    - MCO_PowerWinOpen
+    - MCO_PowerWinClose
+    - MCO_Recovery
+    - MCO_ChargedAttack
+    - MCO_TransitionOpen
+    - MCO_TransitionClose
+    - PIE
+  precision:
+    - Collision_AttackStart
+    - Collision_Add
+    - Collision_Remove
+    - Collision_ClearTargets
+    - Collision_Cancel
+    - Collision_AttackEnd
+  amr:
+    - animmotion
+    - animrotation
+  scar:
+    - SCAR_ComboStart
+    - SCAR_ActionData
+
+  payload:
+    common:
+      - "@SGVB"
+      - "@SGVF"
+      - "@SGVI"
+      - "@CAST"
+      - "@CASTSPELL"
+      - "@APPLYSPELL"
+      - "@UNAPPLYSPELL"
+      - "@SETGHOST"
+      - "@PLAYPARTICLE"
+      - "@CAMSHAKE"
+    mco:
+      - "@SVGF|MCO_AttackSpeed|"
+      - "@SGVI|MCO_nextattack|"
+      - "@SGVI|MCO_nextpowerattack|"
+    precision:
+      - "Node()"
+      - "ID()"
+      - "NoRecoil"
+      - "NoTrail"
+      - "TrailUseTrueLength"
+      - "WeaponTip"
+      - "DamageMult()"
+      - "Length()"
+      - "LengthMult()"
+      - "Radius()"
+      - "RadiusMult()"
+      - "Duration()"
+      - "Rotation()"
+      - "Translation()"
+      - "Scale()"
