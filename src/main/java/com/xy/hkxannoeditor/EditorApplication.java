@@ -42,7 +42,7 @@ public class EditorApplication extends Application {
     private void setMainWindow(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(EditorApplication.class.getResource("/fxml/editor-view.fxml"));
         fxmlLoader.setControllerFactory(param -> context.getBean(param));
-        Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
         stage.setTitle("HkxAnnoEditor");
         stage.setScene(scene);
     }

@@ -1,12 +1,14 @@
 package com.xy.hkxannoeditor.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xy.hkxannoeditor.config.AnnoProperties;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
 class EditorServiceTest {
 
-    private final EditorService editorService = new EditorServiceImpl(new HashMap<>());
+    private final EditorService editorService = new EditorServiceImpl(new HashMap<>(), new AnnoProperties(), new ObjectMapper());
 
     @Test
     void dumpAnno() {

@@ -1,5 +1,7 @@
 package com.xy.hkxannoeditor.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,9 +25,13 @@ import static java.lang.ProcessBuilder.Redirect.INHERIT;
 public class EditorServiceImpl implements EditorService {
     private File root;
     private final Map<String, HkxFile> hkxFileMap;
+    private final AnnoProperties annoProperties;
+    private final ObjectMapper objectMapper;
 
-    public EditorServiceImpl(@Qualifier("fileContainer") Map<String, HkxFile> hkxFileMap) {
+    public EditorServiceImpl(@Qualifier("fileContainer") Map<String, HkxFile> hkxFileMap, AnnoProperties annoProperties, ObjectMapper objectMapper) {
         this.hkxFileMap = hkxFileMap;
+        this.annoProperties = annoProperties;
+        this.objectMapper = objectMapper;
     }
 
     public void updateRoot(File root) {
@@ -55,6 +61,11 @@ public class EditorServiceImpl implements EditorService {
         executeCmd(file, UPDATE_COMMAND_TEMPLATE);
     }
 
+    public TreeItem<HkxFile> createRoot() {
+        HkxFile rootFile = new HkxFile(root);
+        return createNode(rootFile);
+    }
+
     private void executeCmd(HkxFile file, String commandTemplate) {
         String txtPath = file.getTxt().getPath();
         String hkxPath = file.getHkx().getPath();
@@ -72,11 +83,6 @@ public class EditorServiceImpl implements EditorService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public TreeItem<HkxFile> createRoot() {
-        HkxFile rootFile = new HkxFile(root);
-        return createNode(rootFile);
     }
 
     private TreeItem<HkxFile> createNode(final HkxFile f) {

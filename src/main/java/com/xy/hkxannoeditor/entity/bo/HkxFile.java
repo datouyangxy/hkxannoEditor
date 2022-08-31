@@ -37,17 +37,25 @@ public class HkxFile {
 
     public HkxFile(File hkx) {
         this.hkx = hkx;
-        if (hkx.isFile())
+        if (hkx.isFile()) {
             this.txt = new File(hkx.getPath().split("\\.")[0] + ".txt");
-        else
+            metaList = new ArrayList<>();
+            standardList = new ArrayList<>();
+            amrList = new ArrayList<>();
+            scarList = new ArrayList<>();
+            customList = new ArrayList<>();
+            annoProperties = getBean(AnnoProperties.class);
+            objectMapper = getBean(ObjectMapper.class);
+        } else {
             this.txt = null;
-        metaList = new ArrayList<>();
-        standardList = new ArrayList<>();
-        amrList = new ArrayList<>();
-        scarList = new ArrayList<>();
-        customList = new ArrayList<>();
-        annoProperties = getBean(AnnoProperties.class);
-        objectMapper = getBean(ObjectMapper.class);
+            metaList = null;
+            standardList = null;
+            amrList = null;
+            scarList = null;
+            customList = null;
+            annoProperties = null;
+            objectMapper = null;
+        }
     }
 
     @Override

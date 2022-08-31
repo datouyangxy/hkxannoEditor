@@ -37,85 +37,86 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
-<VBox fx:id="rootLayout" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xy.hkxannoeditor.controller.EditorController">
+<VBox fx:id="rootLayout" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xy.hkxannoeditor.controller.EditorController">
     <MenuBar VBox.vgrow="ALWAYS">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openDirectory" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeApp" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#quitApp" text="Quit" />
+            <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openDirectory" text="Open…"/>
+            <Menu mnemonicParsing="false" text="Open Recent"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeApp" text="Close"/>
+            <MenuItem mnemonicParsing="false" text="Save"/>
+            <MenuItem mnemonicParsing="false" text="Save As…"/>
+            <MenuItem mnemonicParsing="false" text="Revert"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem mnemonicParsing="false" text="Preferences…"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem mnemonicParsing="false" onAction="#quitApp" text="Quit"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
+            <MenuItem mnemonicParsing="false" text="Undo"/>
+            <MenuItem mnemonicParsing="false" text="Redo"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem mnemonicParsing="false" text="Cut"/>
+            <MenuItem mnemonicParsing="false" text="Copy"/>
+            <MenuItem mnemonicParsing="false" text="Paste"/>
+            <MenuItem mnemonicParsing="false" text="Delete"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem mnemonicParsing="false" text="Select All"/>
+            <MenuItem mnemonicParsing="false" text="Unselect All"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp"/>
         </Menu>
     </MenuBar>
     <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" VBox.vgrow="ALWAYS">
         <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="552.0" prefWidth="222.0">
-            <TreeView fx:id="fileTree" onMouseClicked="#onClickTreeItem" prefHeight="552.0" prefWidth="222.0" />
+            <TreeView fx:id="fileTree" onMouseClicked="#onClickTreeItem" prefHeight="552.0" prefWidth="222.0"/>
         </ScrollPane>
         <ScrollPane fx:id="editUI">
-            <VBox id="Content" prefWidth="${editUI.width}">
-                <Label fx:id="label1" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="5.0" style="&#10;" text="编辑界面" textAlignment="CENTER" textFill="#5e5e5e">
+            <VBox fx:id="editContent" prefWidth="${editUI.width}">
+                <Label fx:id="label1" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="5.0"
+                       style="&#10;" text="编辑界面" textAlignment="CENTER" textFill="#5e5e5e">
                     <font>
-                        <Font size="18.0" />
+                        <Font size="18.0"/>
                     </font>
                 </Label>
-                <TitledPane fx:id="annoPane" animated="false" expanded="false" text="annotation">
-                    <graphic>
-                        <Button mnemonicParsing="false" style="-fx-background-position: left;" text="add" />
-                    </graphic>
-                    <ListView />
+                <TitledPane fx:id="metaPane" animated="false" expanded="false" text="meta annotation">
+                    <ListView fx:id="metaListView"/>
                 </TitledPane>
                 <TitledPane fx:id="commonPane" animated="false" expanded="false" text="common">
                     <graphic>
-                        <Button mnemonicParsing="false" text="+" />
+                        <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false"
+                                text="+" onMouseClicked="#onCommonAdd"/>
                     </graphic>
-                    <ListView />
+                    <ListView fx:id="commonListView"/>
                 </TitledPane>
                 <TitledPane fx:id="amrPane" animated="false" expanded="false" text="AMR">
                     <graphic>
-                        <Button mnemonicParsing="false" text="add" />
+                        <Button mnemonicParsing="false" text="+" onMouseClicked="#onAmrAdd"/>
                     </graphic>
-                    <ListView />
+                    <ListView fx:id="amrListView"/>
                 </TitledPane>
                 <TitledPane fx:id="scarPane" animated="false" expanded="false" text="SCAR">
                     <graphic>
-                        <Button mnemonicParsing="false" text="add" />
+                        <Button mnemonicParsing="false" text="+" onMouseClicked="#onScarAdd"/>
                     </graphic>
-                    <ListView />
+                    <ListView fx:id="scarListView"/>
                 </TitledPane>
                 <TitledPane fx:id="customPane" animated="false" expanded="false" text="custom">
                     <graphic>
-                        <Button mnemonicParsing="false" text="add" />
+                        <Button mnemonicParsing="false" text="+" onMouseClicked="#onCustomAdd"/>
                     </graphic>
-                    <ListView />
+                    <ListView fx:id="customListView"/>
                 </TitledPane>
             </VBox>
         </ScrollPane>
         <ScrollPane>
             <AnchorPane>
-                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="5.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="#5e5e5e">
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="5.0" style="&#10;"
+                       text="Details" textAlignment="CENTER" textFill="#5e5e5e">
                     <font>
-                        <Font fx:id="label2" size="18.0" />
+                        <Font fx:id="label2" size="18.0"/>
                     </font>
                 </Label>
             </AnchorPane>
@@ -123,17 +124,17 @@
     </SplitPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
         <padding>
-            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+            <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
         </padding>
         <Label maxHeight="1.7976931348623157E308" text="Left status" HBox.hgrow="ALWAYS">
             <font>
-                <Font size="11.0" fx:id="x3" />
+                <Font size="11.0" fx:id="x3"/>
             </font>
             <textFill>
-                <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+                <Color red="0.625" green="0.625" blue="0.625" fx:id="x4"/>
             </textFill>
         </Label>
-        <Pane HBox.hgrow="ALWAYS" />
-        <Label font="$x3" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Label font="$x3" text="Right status" textFill="$x4" HBox.hgrow="NEVER"/>
     </HBox>
 </VBox>
