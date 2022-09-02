@@ -1,11 +1,20 @@
 package com.xy.hkxannoeditor.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xy.hkxannoeditor.component.NameInputField;
+import com.xy.hkxannoeditor.component.PayloadInputField;
+import com.xy.hkxannoeditor.component.TimePointInputField;
 import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
+import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
+import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
+import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
+import com.xy.hkxannoeditor.entity.enums.AnnoType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.HBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,8 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static com.xy.hkxannoeditor.Const.DUMP_COMMAND_TEMPLATE;
-import static com.xy.hkxannoeditor.Const.UPDATE_COMMAND_TEMPLATE;
+import static com.xy.hkxannoeditor.Const.*;
 import static com.xy.hkxannoeditor.utils.FileUtil.readFile;
 import static java.lang.ProcessBuilder.Redirect.INHERIT;
 
@@ -26,12 +34,10 @@ public class EditorServiceImpl implements EditorService {
     private File root;
     private final Map<String, HkxFile> hkxFileMap;
     private final AnnoProperties annoProperties;
-    private final ObjectMapper objectMapper;
 
-    public EditorServiceImpl(@Qualifier("fileContainer") Map<String, HkxFile> hkxFileMap, AnnoProperties annoProperties, ObjectMapper objectMapper) {
+    public EditorServiceImpl(@Qualifier("fileContainer") Map<String, HkxFile> hkxFileMap, AnnoProperties annoProperties) {
         this.hkxFileMap = hkxFileMap;
         this.annoProperties = annoProperties;
-        this.objectMapper = objectMapper;
     }
 
     public void updateRoot(File root) {
@@ -83,6 +89,43 @@ public class EditorServiceImpl implements EditorService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Label createMetaView(String meta) {
+        Label metaLabel = new Label(meta);
+        metaLabel.setPrefHeight(ROW_HEIGHT);
+        return metaLabel;
+    }
+
+    @Override
+    public HBox createStandardView(AnnoType annoType, StandardAnno standardAnno) {
+        if (standardAnno.getAnnoType() == annoType) {
+            HBox hBox = new HBox();
+            hBox.setPrefHeight(ROW_HEIGHT);
+            ObservableList<Node> children = hBox.getChildren();
+
+            TimePointInputField.create(standardAnno, children);
+            NameInputField.create(standardAnno, children);
+            PayloadInputField.create(standardAnno, children);
+
+            return hBox;
+        }
+        return null;
+    }
+
+    @Override
+    public HBox createAmrView(AmrAnno amrAnno) {
+        return new HBox();
+    }
+
+    @Override
+    public HBox createScarView(ScarAnno scarAnno) {
+        return new HBox();
+    }
+
+    @Override
+    public HBox createCustomView(String custom) {
+        return new HBox();
     }
 
     private TreeItem<HkxFile> createNode(final HkxFile f) {

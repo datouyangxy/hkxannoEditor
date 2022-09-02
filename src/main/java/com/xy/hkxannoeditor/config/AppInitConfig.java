@@ -14,9 +14,4 @@ public class AppInitConfig {
     public Map<String, HkxFile> fileContainer() {
         return new HashMap<>();
     }
-
-    @Bean(name = "currentFile")
-    public HkxFile currentFile() {
-        return null;
-    }
 }

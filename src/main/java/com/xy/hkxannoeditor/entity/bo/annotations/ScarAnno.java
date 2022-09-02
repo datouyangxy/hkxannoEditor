@@ -16,12 +16,12 @@ public class ScarAnno extends HkxAnno {
     private final ScarJson scarJson;
     private final static String outTemplate = "{0} {1}{2}";
 
-    public ScarAnno(Float timePoint, String name, ScarJson scarJson) {
+    public ScarAnno(Double timePoint, String name, ScarJson scarJson) {
         super(timePoint, name);
         this.scarJson = scarJson;
     }
 
-    public ScarAnno(Float timePoint, String name) {
+    public ScarAnno(Double timePoint, String name) {
         super(timePoint, name);
         this.scarJson = null;
     }
@@ -41,7 +41,7 @@ public class ScarAnno extends HkxAnno {
                 scarJsonString = "";
             else
                 scarJsonString = objectMapper.writeValueAsString(scarJson);
-            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint), name, scarJsonString);
+            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name, scarJsonString);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

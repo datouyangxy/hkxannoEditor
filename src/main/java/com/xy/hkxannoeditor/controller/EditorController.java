@@ -1,12 +1,14 @@
 package com.xy.hkxannoeditor.controller;
 
-import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
+import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
+import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
 import com.xy.hkxannoeditor.service.EditorService;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -14,15 +16,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.controlsfx.control.textfield.TextFields;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
 import java.util.Map;
 
-import static com.xy.hkxannoeditor.Const.ROW_HEIGHT;
-import static com.xy.hkxannoeditor.entity.enums.AnnoType.*;
+import static com.xy.hkxannoeditor.entity.enums.AnnoType.COMMON;
 import static javafx.scene.input.MouseButton.PRIMARY;
 
 @Slf4j
@@ -33,7 +33,7 @@ public class EditorController {
     private final EditorService editor;
     private HkxFile currentFile;
 
-    public void setCurrentFile(@Qualifier("currentFile") HkxFile currentFile) {
+    public void setCurrentFile(HkxFile currentFile) {
         this.currentFile = currentFile;
     }
 
@@ -54,15 +54,15 @@ public class EditorController {
     private TitledPane customPane;
 
     @FXML
-    private ListView<Label> metaListView;
+    private VBox metaVBox;
     @FXML
-    private ListView<HBox> commonListView;
+    private VBox commonVBox;
     @FXML
-    private ListView<HBox> amrListView;
+    private VBox amrVBox;
     @FXML
-    private ListView<HBox> scarListView;
+    private VBox scarVBox;
     @FXML
-    private ListView<HBox> customListView;
+    private VBox customVBox;
 
     @FXML
     private TreeView<HkxFile> fileTree;
@@ -73,7 +73,7 @@ public class EditorController {
     @FXML
     private MenuItem openMenuItem;
 
-    public EditorController(AnnoProperties properties, @Qualifier("fileContainer") Map<String, HkxFile> fileContainer, EditorService editor) {
+    public EditorController(@Qualifier("fileContainer") Map<String, HkxFile> fileContainer, EditorService editor) {
         this.fileContainer = fileContainer;
         this.editor = editor;
     }
@@ -139,104 +139,82 @@ public class EditorController {
     }
 
     private void refreshMeta() {
-        ObservableList<Label> itemList = metaListView.getItems();
+        ObservableList<Node> itemList = metaVBox.getChildren();
         itemList.clear();
         for (String meta : currentFile.getMetaList()) {
-            Label metaLabel = new Label(meta);
-            metaLabel.setPrefHeight(ROW_HEIGHT);
-            itemList.addAll(metaLabel);
+            itemList.add(editor.createMetaView(meta));
         }
         if (!itemList.isEmpty())
             metaPane.setExpanded(true);
-        metaListView.setPrefHeight((itemList.size() + 1) * ROW_HEIGHT);
     }
 
     private void refreshCommon() {
-        ObservableList<HBox> itemList = commonListView.getItems();
+        ObservableList<Node> itemList = commonVBox.getChildren();
         itemList.clear();
         for (StandardAnno standardAnno : currentFile.getStandardList()) {
-            if (standardAnno.getAnnoType() == COMMON) {
-                TextField timePoint_TF = TextFields.createClearableTextField();
-                timePoint_TF.setText(String.format("%.6f", standardAnno.getTimePoint()));
-                TextField name_TF = TextFields.createClearableTextField();
-                name_TF.setText(standardAnno.getName());
-                TextField payload_TF = TextFields.createClearableTextField();
-                payload_TF.setText(standardAnno.getPayload());
-                TextFields.bindAutoCompletion(name_TF, currentFile.getAnnoProperties().getCommon());
-                TextFields.bindAutoCompletion(payload_TF, currentFile.getAnnoProperties().getPayload().get(COMMON));
-                HBox hBox = new HBox(timePoint_TF, name_TF, payload_TF);
-                hBox.setPrefHeight(ROW_HEIGHT);
-                itemList.add(hBox);
-            }
+            HBox row = editor.createStandardView(COMMON, standardAnno);
+            if (row != null)
+                itemList.add(row);
         }
         if (!itemList.isEmpty())
             commonPane.setExpanded(true);
-        commonListView.setPrefHeight((itemList.size() + 1) * ROW_HEIGHT);
     }
 
     private void refreshAmr() {
-        ObservableList<HBox> itemList = amrListView.getItems();
+        ObservableList<Node> itemList = amrVBox.getChildren();
         itemList.clear();
-        for (StandardAnno standardAnno : currentFile.getStandardList()) {
-            if (standardAnno.getAnnoType() == AMR) {
-                HBox hBox = new HBox();
-                hBox.setPrefHeight(ROW_HEIGHT);
-                itemList.add(hBox);
-            }
+        for (AmrAnno amrAnno : currentFile.getAmrList()) {
+            itemList.add(editor.createAmrView(amrAnno));
         }
         if (!itemList.isEmpty())
             amrPane.setExpanded(true);
-        amrListView.setPrefHeight((itemList.size() + 1) * ROW_HEIGHT);
     }
 
     private void refreshScar() {
-        ObservableList<HBox> itemList = scarListView.getItems();
+        ObservableList<Node> itemList = scarVBox.getChildren();
         itemList.clear();
-        for (StandardAnno standardAnno : currentFile.getStandardList()) {
-            if (standardAnno.getAnnoType() == SCAR) {
-
-            }
+        for (ScarAnno scarAnno : currentFile.getScarList()) {
+            itemList.add(editor.createScarView(scarAnno));
         }
         if (!itemList.isEmpty())
             scarPane.setExpanded(true);
-        scarListView.setPrefHeight((itemList.size() + 1) * ROW_HEIGHT);
     }
 
     private void refreshCustom() {
-        ObservableList<HBox> itemList = customListView.getItems();
+        ObservableList<Node> itemList = customVBox.getChildren();
         itemList.clear();
         for (String customAnno : currentFile.getCustomList()) {
+            itemList.add(editor.createCustomView(customAnno));
         }
         if (!itemList.isEmpty())
             customPane.setExpanded(true);
-        customListView.setPrefHeight((itemList.size() + 1) * ROW_HEIGHT);
     }
 
     @FXML
     private void onCommonAdd(MouseEvent mouseEvent) {
         if (PRIMARY.equals(mouseEvent.getButton())) {
-            commonListView.getItems().add(new HBox());
+            commonVBox.getChildren().add(new HBox());
         }
     }
 
     @FXML
     private void onAmrAdd(MouseEvent mouseEvent) {
         if (PRIMARY.equals(mouseEvent.getButton())) {
-            amrListView.getItems().add(new HBox());
+            amrVBox.getChildren().add(new HBox());
         }
     }
 
     @FXML
     private void onScarAdd(MouseEvent mouseEvent) {
         if (PRIMARY.equals(mouseEvent.getButton())) {
-            scarListView.getItems().add(new HBox());
+            scarVBox.getChildren().add(new HBox());
         }
     }
 
     @FXML
     private void onCustomAdd(MouseEvent mouseEvent) {
         if (PRIMARY.equals(mouseEvent.getButton())) {
-            customListView.getItems().add(new HBox());
+            customVBox.getChildren().add(new HBox());
         }
     }
 }

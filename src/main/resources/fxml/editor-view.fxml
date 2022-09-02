@@ -82,32 +82,32 @@
                     </font>
                 </Label>
                 <TitledPane fx:id="metaPane" animated="false" expanded="false" text="meta annotation">
-                    <ListView fx:id="metaListView"/>
+                    <VBox fx:id="metaVBox"/>
                 </TitledPane>
                 <TitledPane fx:id="commonPane" animated="false" expanded="false" text="common">
                     <graphic>
                         <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false"
                                 text="+" onMouseClicked="#onCommonAdd"/>
                     </graphic>
-                    <ListView fx:id="commonListView"/>
+                    <VBox fx:id="commonVBox"/>
                 </TitledPane>
                 <TitledPane fx:id="amrPane" animated="false" expanded="false" text="AMR">
                     <graphic>
                         <Button mnemonicParsing="false" text="+" onMouseClicked="#onAmrAdd"/>
                     </graphic>
-                    <ListView fx:id="amrListView"/>
+                    <VBox fx:id="amrVBox"/>
                 </TitledPane>
                 <TitledPane fx:id="scarPane" animated="false" expanded="false" text="SCAR">
                     <graphic>
                         <Button mnemonicParsing="false" text="+" onMouseClicked="#onScarAdd"/>
                     </graphic>
-                    <ListView fx:id="scarListView"/>
+                    <VBox fx:id="scarVBox"/>
                 </TitledPane>
                 <TitledPane fx:id="customPane" animated="false" expanded="false" text="custom">
                     <graphic>
                         <Button mnemonicParsing="false" text="+" onMouseClicked="#onCustomAdd"/>
                     </graphic>
-                    <ListView fx:id="customListView"/>
+                    <VBox fx:id="customVBox"/>
                 </TitledPane>
             </VBox>
         </ScrollPane>
