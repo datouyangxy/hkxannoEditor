@@ -33,20 +33,14 @@ import java.util.Map;
 @Component(value = "annoProperties")
 @ConfigurationProperties(prefix = "anno", ignoreUnknownFields = false)
 public class AnnoProperties {
+    private Map<AnnoType, List<AnnoProperty>> annotation;
+    private Map<AnnoType, List<AnnoProperty>> payload;
 
-    private List<String> common;
+    public List<AnnoProperty> getAnnotations(AnnoType annoType) {
+        return annotation.get(annoType);
+    }
 
-    private List<String> amr;
-
-    private List<String> mco;
-
-    private List<String> scar;
-
-    private List<String> precision;
-
-    private Map<AnnoType, List<String>> payload;
-
-    public List<String> getPayloads(AnnoType annoType) {
+    public List<AnnoProperty> getPayloads(AnnoType annoType) {
         return payload.get(annoType);
     }
 }

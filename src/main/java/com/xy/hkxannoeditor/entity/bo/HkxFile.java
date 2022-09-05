@@ -3,6 +3,7 @@ package com.xy.hkxannoeditor.entity.bo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xy.hkxannoeditor.config.AnnoProperties;
+import com.xy.hkxannoeditor.config.AnnoProperty;
 import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
@@ -31,23 +32,31 @@ public class HkxFile {
     private final AnnoProperties annoProperties;
     private final ObjectMapper objectMapper;
 
-    private String originAnno;
+    private String originAnno = null;
     private boolean edited = false;
     private boolean saved = true;
 
     public HkxFile(File hkx) {
         this.hkx = hkx;
-        if (hkx.isFile())
+        if (hkx != null && hkx.isFile()) {
             this.txt = new File(hkx.getPath().split("\\.")[0] + ".txt");
-        else
+            metaList = new ArrayList<>();
+            standardList = new ArrayList<>();
+            amrList = new ArrayList<>();
+            scarList = new ArrayList<>();
+            customList = new ArrayList<>();
+            annoProperties = getBean(AnnoProperties.class);
+            objectMapper = getBean(ObjectMapper.class);
+        } else {
             this.txt = null;
-        metaList = new ArrayList<>();
-        standardList = new ArrayList<>();
-        amrList = new ArrayList<>();
-        scarList = new ArrayList<>();
-        customList = new ArrayList<>();
-        annoProperties = getBean(AnnoProperties.class);
-        objectMapper = getBean(ObjectMapper.class);
+            metaList = null;
+            standardList = null;
+            amrList = null;
+            scarList = null;
+            customList = null;
+            annoProperties = null;
+            objectMapper = null;
+        }
     }
 
     @Override
@@ -59,13 +68,14 @@ public class HkxFile {
         if (originAnno == null)
             return;
 
+        clearList();
         String[] annotations = originAnno.split(LINE_BREAK);
         for (String anno : annotations) {
             if (isMeta(anno)) {
                 metaList.add(anno);
             } else {
                 String[] annoArray = anno.split(" ");
-                Float timePoint = Float.valueOf(annoArray[0]);
+                Double timePoint = Double.parseDouble(annoArray[0]);
                 String name = annoArray[1];
 
                 if (isAmr(name)) {
@@ -127,18 +137,20 @@ public class HkxFile {
     }
 
     private AnnoType getStandardAnnoType(String annoName, String payload) {
+        AnnoProperty annoProperty = new AnnoProperty();
+        annoProperty.setName(annoName);
         if (payload == null) {
-            if (annoProperties.getMco().contains(annoName))
+            if (annoProperties.getAnnotations(MCO).contains(annoProperty))
                 return MCO;
         } else {
-            for (String p : annoProperties.getPayloads(MCO)) {
-                if (payload.contains(p))
+            for (AnnoProperty p : annoProperties.getPayloads(MCO)) {
+                if (payload.contains(p.getName()))
                     return MCO;
             }
         }
-        if (annoProperties.getCommon().contains(annoName))
+        if (annoProperties.getAnnotations(COMMON).contains(annoProperty))
             return COMMON;
-        if (annoProperties.getPrecision().contains(annoName))
+        if (annoProperties.getAnnotations(PRECISION).contains(annoProperty))
             return PRECISION;
         return null;
     }
@@ -148,14 +160,24 @@ public class HkxFile {
     }
 
     private boolean isAmr(String annoName) {
-        return annoProperties.getAmr().contains(annoName);
+        AnnoProperty annoProperty = new AnnoProperty();
+        annoProperty.setName(annoName);
+        return annoProperties.getAnnotations(AMR).contains(annoProperty);
     }
 
     private boolean isScar(String annoName) {
-        for (String scarAnno : annoProperties.getScar()) {
-            if (annoName.contains(scarAnno))
+        for (AnnoProperty scarAnno : annoProperties.getAnnotations(SCAR)) {
+            if (annoName.contains(scarAnno.getName()))
                 return true;
         }
         return false;
+    }
+
+    private void clearList() {
+        metaList.clear();
+        standardList.clear();
+        amrList.clear();
+        scarList.clear();
+        customList.clear();
     }
 }

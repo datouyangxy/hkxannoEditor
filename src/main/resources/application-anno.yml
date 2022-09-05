@@ -1,67 +1,69 @@
 anno:
-  common:
-    - CastOKStart
-    - preHitFrame
-    - preHitFrame
-    - weaponSwing
-    - weaponLeftSwing
-    - HitFrame
-    - 2_HitFrame
-    - SoundPlay
-    - PIE
-  mco:
-    - MCO_WinOpen
-    - MCO_WinClose
-    - MCO_PowerWinOpen
-    - MCO_PowerWinClose
-    - MCO_Recovery
-    - MCO_ChargedAttack
-    - MCO_TransitionOpen
-    - MCO_TransitionClose
-    - PIE
-  precision:
-    - Collision_AttackStart
-    - Collision_Add
-    - Collision_Remove
-    - Collision_ClearTargets
-    - Collision_Cancel
-    - Collision_AttackEnd
-  amr:
-    - animmotion
-    - animrotation
-  scar:
-    - SCAR_ComboStart
-    - SCAR_ActionData
+  annotation:
+    COMMON:
+      - name: CastOKStart
+      - name: preHitFrame
+      - name: preHitFrame
+      - name: weaponSwing
+      - name: weaponLeftSwing
+      - name: HitFrame
+      - name: 2_HitFrame
+      - name: SoundPlay
+      - name: PIE
+    MCO:
+      - name: MCO_WinOpen
+      - name: MCO_WinClose
+      - name: MCO_PowerWinOpen
+      - name: MCO_PowerWinClose
+      - name: MCO_Recovery
+      - name: MCO_ChargedAttack
+      - name: MCO_TransitionOpen
+      - name: MCO_TransitionClose
+      - name: PIE
+    PRECISION:
+      - name: Collision_AttackStart
+      - name: Collision_Add
+      - name: Collision_Remove
+      - name: Collision_ClearTargets
+      - name: Collision_Cancel
+      - name: Collision_AttackEnd
+    AMR:
+      - name: animmotion
+      - name: animrotation
+    SCAR:
+      - name: SCAR_ComboStart
+      - name: SCAR_ActionData
 
   payload:
-    common:
-      - "@SGVB"
-      - "@SGVF"
-      - "@SGVI"
-      - "@CAST"
-      - "@CASTSPELL"
-      - "@APPLYSPELL"
-      - "@UNAPPLYSPELL"
-      - "@SETGHOST"
-      - "@PLAYPARTICLE"
-      - "@CAMSHAKE"
-    mco:
-      - "@SVGF|MCO_AttackSpeed|"
-      - "@SGVI|MCO_nextattack|"
-      - "@SGVI|MCO_nextpowerattack|"
-    precision:
-      - "Node()"
-      - "ID()"
-      - "NoRecoil"
-      - "NoTrail"
-      - "TrailUseTrueLength"
-      - "WeaponTip"
-      - "DamageMult()"
-      - "Length()"
-      - "LengthMult()"
-      - "Radius()"
-      - "RadiusMult()"
-      - "Duration()"
-      - "Rotation()"
-      - "Translation()"
-      - "Scale()"
+    COMMON:
+      - name: "@SGVB"
+      - name: "@SGVF"
+      - name: "@SGVI"
+      - name: "@CAST"
+      - name: "@CASTSPELL"
+      - name: "@APPLYSPELL"
+      - name: "@UNAPPLYSPELL"
+      - name: "@SETGHOST"
+      - name: "@PLAYPARTICLE"
+      - name: "@CAMSHAKE"
+    MCO:
+      - name: "@SVGF|MCO_AttackSpeed|"
+      - name: "@SGVI|MCO_nextattack|"
+      - name: "@SGVI|MCO_nextpowerattack|"
+    PRECISION:
+      - name: "Node()"
+      - name: "ID()"
+      - name: "NoRecoil"
+      - name: "NoTrail"
+      - name: "TrailUseTrueLength"
+      - name: "WeaponTip"
+      - name: "DamageMult()"
+      - name: "Length()"
+      - name: "LengthMult()"
+      - name: "Radius()"
+      - name: "RadiusMult()"
+      - name: "Duration()"
+      - name: "Rotation()"
+      - name: "Translation()"
+      - name: "Scale()"
+    CUSTOM:

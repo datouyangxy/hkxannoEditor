@@ -5,5 +5,6 @@ public enum AnnoType {
     MCO,
     PRECISION,
     AMR,
-    SCAR
+    SCAR,
+    CUSTOM
 }
