@@ -2,8 +2,8 @@ package com.xy.hkxannoeditor.component;
 
 import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.config.AnnoProperty;
+import com.xy.hkxannoeditor.config.AnnoProperty.AnnoPropertyListConverter;
 import com.xy.hkxannoeditor.config.AnnoPropertySuggestionProvider;
-import com.xy.hkxannoeditor.config.CustomAutoCompletionTextFieldBinding;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
 import javafx.collections.ObservableList;
@@ -22,7 +22,7 @@ public class PayloadInputField implements InputFieldComponent {
         TextField payload_TF = TextFields.createClearableTextField();
         payload_TF.textProperty().bindBidirectional(standardAnno.getPayload());
         SuggestionProvider<AnnoProperty> payloadCallBack = new AnnoPropertySuggestionProvider(getBean(AnnoProperties.class).getPayloads(standardAnno.getAnnoType()));
-        new CustomAutoCompletionTextFieldBinding<>(payload_TF, payloadCallBack);
+        new CustomAutoCompletionTextFieldBinding<>(payload_TF, payloadCallBack,new AnnoPropertyListConverter());
         children.add(pl);
         children.add(payload_TF);
     }

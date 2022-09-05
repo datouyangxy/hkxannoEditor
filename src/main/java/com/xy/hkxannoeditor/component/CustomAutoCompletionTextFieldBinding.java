@@ -1,4 +1,4 @@
-package com.xy.hkxannoeditor.config;
+package com.xy.hkxannoeditor.component;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
@@ -11,8 +11,8 @@ import java.util.Collection;
 
 public class CustomAutoCompletionTextFieldBinding<T> extends AutoCompletionBinding<T> {
 
-    private static <T> StringConverter<T> defaultStringConverter() {
-        return new StringConverter<T>() {
+    private static <T> StringConverter<T> defaultResultConverter() {
+        return new StringConverter<>() {
             @Override
             public String toString(T t) {
                 return t == null ? null : t.toString();
@@ -26,15 +26,19 @@ public class CustomAutoCompletionTextFieldBinding<T> extends AutoCompletionBindi
         };
     }
 
-    private final StringConverter<T> converter;
+    private final StringConverter<T> resultConverter;
 
     public CustomAutoCompletionTextFieldBinding(Node completionTarget, Callback<ISuggestionRequest, Collection<T>> suggestionProvider) {
-        this(completionTarget, suggestionProvider, defaultStringConverter());
+        this(completionTarget, suggestionProvider, defaultResultConverter(), defaultResultConverter());
     }
 
-    public CustomAutoCompletionTextFieldBinding(Node completionTarget, Callback<ISuggestionRequest, Collection<T>> suggestionProvider, StringConverter<T> converter) {
-        super(completionTarget, suggestionProvider, converter);
-        this.converter = converter;
+    public CustomAutoCompletionTextFieldBinding(Node completionTarget, Callback<ISuggestionRequest, Collection<T>> suggestionProvider, StringConverter<T> listConverter) {
+        this(completionTarget, suggestionProvider, listConverter, defaultResultConverter());
+    }
+
+    public CustomAutoCompletionTextFieldBinding(Node completionTarget, Callback<ISuggestionRequest, Collection<T>> suggestionProvider, StringConverter<T> listConverter, StringConverter<T> resultConverter) {
+        super(completionTarget, suggestionProvider, listConverter);
+        this.resultConverter = resultConverter;
         getCompletionTarget().textProperty().addListener(textChangeListener);
         getCompletionTarget().focusedProperty().addListener(focusChangedListener);
     }
@@ -52,7 +56,7 @@ public class CustomAutoCompletionTextFieldBinding<T> extends AutoCompletionBindi
 
     @Override
     protected void completeUserInput(T completion) {
-        String newText = converter.toString(completion);
+        String newText = resultConverter.toString(completion);
         getCompletionTarget().setText(newText);
         getCompletionTarget().positionCaret(newText.length());
     }

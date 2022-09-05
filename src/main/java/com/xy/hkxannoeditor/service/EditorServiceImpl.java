@@ -1,5 +1,6 @@
 package com.xy.hkxannoeditor.service;
 
+import com.xy.hkxannoeditor.component.ButtonGroup;
 import com.xy.hkxannoeditor.component.NameInputField;
 import com.xy.hkxannoeditor.component.PayloadInputField;
 import com.xy.hkxannoeditor.component.TimePointInputField;
@@ -107,6 +108,7 @@ public class EditorServiceImpl implements EditorService {
             TimePointInputField.create(standardAnno, children);
             NameInputField.create(standardAnno, children);
             PayloadInputField.create(standardAnno, children);
+            ButtonGroup.create();
 
             return hBox;
         }
@@ -115,12 +117,26 @@ public class EditorServiceImpl implements EditorService {
 
     @Override
     public HBox createAmrView(AmrAnno amrAnno) {
-        return new HBox();
+        HBox hBox = new HBox();
+        hBox.setPrefHeight(ROW_HEIGHT);
+        ObservableList<Node> children = hBox.getChildren();
+
+        TimePointInputField.create(amrAnno, children);
+        NameInputField.create(amrAnno, children);
+        ButtonGroup.create();
+        return hBox;
     }
 
     @Override
     public HBox createScarView(ScarAnno scarAnno) {
-        return new HBox();
+        HBox hBox = new HBox();
+        hBox.setPrefHeight(ROW_HEIGHT);
+        ObservableList<Node> children = hBox.getChildren();
+
+        TimePointInputField.create(scarAnno, children);
+        NameInputField.create(scarAnno, children);
+        ButtonGroup.create();
+        return hBox;
     }
 
     @Override

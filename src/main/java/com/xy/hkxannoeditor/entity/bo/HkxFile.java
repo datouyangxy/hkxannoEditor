@@ -137,8 +137,7 @@ public class HkxFile {
     }
 
     private AnnoType getStandardAnnoType(String annoName, String payload) {
-        AnnoProperty annoProperty = new AnnoProperty();
-        annoProperty.setName(annoName);
+        AnnoProperty annoProperty = new AnnoProperty(annoName);
         if (payload == null) {
             if (annoProperties.getAnnotations(MCO).contains(annoProperty))
                 return MCO;
@@ -160,8 +159,7 @@ public class HkxFile {
     }
 
     private boolean isAmr(String annoName) {
-        AnnoProperty annoProperty = new AnnoProperty();
-        annoProperty.setName(annoName);
+        AnnoProperty annoProperty = new AnnoProperty(annoName);
         return annoProperties.getAnnotations(AMR).contains(annoProperty);
     }
 
