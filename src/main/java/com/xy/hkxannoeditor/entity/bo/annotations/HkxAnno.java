@@ -21,7 +21,7 @@ public abstract class HkxAnno {
         this.name.set(name);
     }
 
-    public void setTimePoint(float timePoint) {
+    public void setTimePoint(Double timePoint) {
         this.timePoint.set(timePoint);
     }
 

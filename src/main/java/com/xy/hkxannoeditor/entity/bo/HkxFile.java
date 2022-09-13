@@ -8,6 +8,8 @@ import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
 import com.xy.hkxannoeditor.entity.enums.AnnoType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,10 +27,10 @@ public class HkxFile {
     private final File hkx;
     private final File txt;
     private final List<String> metaList;
-    private final List<StandardAnno> standardList;
-    private final List<AmrAnno> amrList;
-    private final List<ScarAnno> scarList;
-    private final List<String> customList;
+    private final ObservableList<StandardAnno> standardList;
+    private final ObservableList<AmrAnno> amrList;
+    private final ObservableList<ScarAnno> scarList;
+    private final ObservableList<String> customList;
     private final AnnoProperties annoProperties;
     private final ObjectMapper objectMapper;
 
@@ -41,10 +43,10 @@ public class HkxFile {
         if (hkx != null && hkx.isFile()) {
             this.txt = new File(hkx.getPath().split("\\.")[0] + ".txt");
             metaList = new ArrayList<>();
-            standardList = new ArrayList<>();
-            amrList = new ArrayList<>();
-            scarList = new ArrayList<>();
-            customList = new ArrayList<>();
+            standardList = FXCollections.observableArrayList();
+            amrList = FXCollections.observableArrayList();
+            scarList = FXCollections.observableArrayList();
+            customList = FXCollections.observableArrayList();
             annoProperties = getBean(AnnoProperties.class);
             objectMapper = getBean(ObjectMapper.class);
         } else {

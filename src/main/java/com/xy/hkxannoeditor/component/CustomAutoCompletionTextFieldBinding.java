@@ -76,7 +76,7 @@ public class CustomAutoCompletionTextFieldBinding<T> extends AutoCompletionBindi
     private final ChangeListener<Boolean> focusChangedListener = (obs, oldFocused, newFocused) -> {
         if (!newFocused)
             hidePopup();
-        else if (getCompletionTarget().getText().isEmpty())
+        else
             setUserInput(getCompletionTarget().getText());
     };
 }

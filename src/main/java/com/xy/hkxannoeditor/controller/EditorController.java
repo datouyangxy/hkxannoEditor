@@ -1,9 +1,13 @@
 package com.xy.hkxannoeditor.controller;
 
+import com.xy.hkxannoeditor.Const;
+import com.xy.hkxannoeditor.component.AutoCompletionFieldTableCell;
+import com.xy.hkxannoeditor.component.DoubleFieldTableCell;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
 import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
+import com.xy.hkxannoeditor.entity.enums.ColumnName;
 import com.xy.hkxannoeditor.service.EditorService;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,11 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.util.Map;
 
-import static com.xy.hkxannoeditor.entity.enums.AnnoType.COMMON;
 import static javafx.scene.input.MouseButton.PRIMARY;
+import static javafx.scene.input.MouseButton.SECONDARY;
 
 @Slf4j
 @Controller
@@ -32,6 +37,9 @@ public class EditorController {
     private final Map<String, HkxFile> fileContainer;
     private final EditorService editor;
     private HkxFile currentFile;
+
+    @Resource
+    private ContextMenu editRightMenu;
 
     public void setCurrentFile(HkxFile currentFile) {
         this.currentFile = currentFile;
@@ -56,7 +64,7 @@ public class EditorController {
     @FXML
     private VBox metaVBox;
     @FXML
-    private VBox commonVBox;
+    private TableView<StandardAnno> commonTable;
     @FXML
     private VBox amrVBox;
     @FXML
@@ -81,6 +89,40 @@ public class EditorController {
     @FXML
     public void initialize() {
         editContent.setVisible(false);
+
+        TableColumn<StandardAnno, Number> timePoint = new TableColumn<>(ColumnName.time_point.name());
+        timePoint.setCellFactory(DoubleFieldTableCell.forTableColumn());
+        timePoint.setCellValueFactory(anno -> anno.getValue().getTimePoint());
+
+        TableColumn<StandardAnno, String> name = new TableColumn<>(ColumnName.name.name());
+        name.setCellFactory(AutoCompletionFieldTableCell.forTableColumn());
+        name.setCellValueFactory(anno -> anno.getValue().getName());
+
+        TableColumn<StandardAnno, String> payload = new TableColumn<>(ColumnName.payload.name());
+        payload.setCellFactory(AutoCompletionFieldTableCell.forTableColumn());
+        payload.setCellValueFactory(anno -> anno.getValue().getPayload());
+
+        commonTable.getColumns().setAll(timePoint, name, payload);
+        commonTable.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            if (SECONDARY == event.getButton()) {
+                Node node = event.getPickResult().getIntersectedNode();
+                if (node instanceof TableCell<?, ?>) {
+                    editRightMenu.setUserData(node);
+                    editRightMenu.show(node, event.getScreenX(), event.getScreenY());
+                } else if (node.getParent() instanceof TableCell<?, ?>) {
+                    editRightMenu.setUserData(node.getParent());
+                    editRightMenu.show(node, event.getScreenX(), event.getScreenY());
+                }
+            }
+        });
+        commonTable.itemsProperty().addListener((observable, o, n) -> commonTable.setPrefHeight(Const.ROW_HEIGHT * (n.size() + 1)));
+
+        editUI.contentProperty().addListener(node -> {
+            double weight = commonTable.getPrefWidth() / commonTable.getColumns().size();
+            timePoint.setPrefWidth(weight);
+            name.setPrefWidth(weight);
+            payload.setPrefWidth(weight);
+        });
     }
 
     @FXML
@@ -149,14 +191,15 @@ public class EditorController {
     }
 
     private void refreshCommon() {
-        ObservableList<Node> itemList = commonVBox.getChildren();
-        itemList.clear();
-        for (StandardAnno standardAnno : currentFile.getStandardList()) {
-            HBox row = editor.createStandardView(COMMON, standardAnno);
-            if (row != null)
-                itemList.add(row);
-        }
-        if (!itemList.isEmpty())
+        commonTable.setItems(currentFile.getStandardList());
+//        ObservableList<Node> itemList = commonVBox.getChildren();
+//        itemList.clear();
+//        for (StandardAnno standardAnno : currentFile.getStandardList()) {
+//            HBox row = editor.createStandardView(COMMON, standardAnno);
+//            if (row != null)
+//                itemList.add(row);
+//        }
+        if (!commonTable.getItems().isEmpty())
             commonPane.setExpanded(true);
     }
 
@@ -193,7 +236,7 @@ public class EditorController {
     @FXML
     private void onCommonAdd(MouseEvent mouseEvent) {
         if (PRIMARY.equals(mouseEvent.getButton())) {
-            commonVBox.getChildren().add(new HBox());
+//            commonVBox.getChildren().add(new HBox());
         }
     }
 

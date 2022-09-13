@@ -62,6 +62,6 @@ public class AmrAnno extends HkxAnno {
 
     @Override
     public String toString() {
-        return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), getName(), x, y, z);
+        return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name, x, y, z);
     }
 }

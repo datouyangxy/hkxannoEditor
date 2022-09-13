@@ -13,7 +13,7 @@ import java.text.MessageFormat;
 @Getter
 public class StandardAnno extends HkxAnno {
     private final static String outTemplate = "{0} {1}{2}";
-    private StringProperty payload = new SimpleStringProperty("");
+    private StringProperty payload = new SimpleStringProperty();
     private final AnnoType annoType;
 
     public StandardAnno(Double timePoint, String name, AnnoType annoType) {

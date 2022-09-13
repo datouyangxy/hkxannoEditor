@@ -1,8 +1,9 @@
 anno:
   annotation:
     COMMON:
+      - name: ShdEquip
+      - name: bowReset
       - name: CastOKStart
-      - name: preHitFrame
       - name: preHitFrame
       - name: weaponSwing
       - name: weaponLeftSwing

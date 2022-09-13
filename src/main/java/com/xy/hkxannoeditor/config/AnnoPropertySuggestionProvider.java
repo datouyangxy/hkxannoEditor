@@ -29,7 +29,7 @@ public class AnnoPropertySuggestionProvider extends SuggestionProvider<AnnoPrope
     }
 
     @Override
-    public void addPossibleSuggestions(AnnoProperty... newPossible){
+    public void addPossibleSuggestions(AnnoProperty... newPossible) {
         addPossibleSuggestions(Arrays.asList(newPossible));
     }
 
@@ -37,9 +37,10 @@ public class AnnoPropertySuggestionProvider extends SuggestionProvider<AnnoPrope
      * Add the given new possible suggestions to this  SuggestionProvider
      */
     @Override
-    public void addPossibleSuggestions(Collection<AnnoProperty> newPossible){
+    public void addPossibleSuggestions(Collection<AnnoProperty> newPossible) {
         synchronized (possibleSuggestionsLock) {
-            possibleSuggestions.addAll(newPossible);
+            if (newPossible != null)
+                possibleSuggestions.addAll(newPossible);
         }
     }
 
@@ -47,7 +48,7 @@ public class AnnoPropertySuggestionProvider extends SuggestionProvider<AnnoPrope
      * Remove all current possible suggestions
      */
     @Override
-    public void clearSuggestions(){
+    public void clearSuggestions() {
         synchronized (possibleSuggestionsLock) {
             possibleSuggestions.clear();
         }
