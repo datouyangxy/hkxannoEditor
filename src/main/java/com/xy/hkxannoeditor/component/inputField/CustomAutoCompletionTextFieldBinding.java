@@ -1,4 +1,4 @@
-package com.xy.hkxannoeditor.component;
+package com.xy.hkxannoeditor.component.inputField;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;

@@ -1,8 +1,7 @@
 package com.xy.hkxannoeditor.service;
 
-import com.xy.hkxannoeditor.component.ButtonGroup;
-import com.xy.hkxannoeditor.component.NameInputField;
-import com.xy.hkxannoeditor.component.PayloadInputField;
+import com.xy.hkxannoeditor.component.inputField.NameInputField;
+import com.xy.hkxannoeditor.component.inputField.PayloadInputField;
 import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
 import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
@@ -107,7 +106,6 @@ public class EditorServiceImpl implements EditorService {
 //            TimePointInputField.create(standardAnno, children);
             NameInputField.create(standardAnno);
             PayloadInputField.create(standardAnno);
-            ButtonGroup.create(standardAnno, children);
 
             return hBox;
         }
@@ -122,7 +120,6 @@ public class EditorServiceImpl implements EditorService {
 
 //        TimePointInputField.create(amrAnno, children);
         NameInputField.create(amrAnno);
-        ButtonGroup.create(amrAnno, children);
         return hBox;
     }
 
@@ -134,7 +131,6 @@ public class EditorServiceImpl implements EditorService {
 
 //        TimePointInputField.create(scarAnno, children);
         NameInputField.create(scarAnno);
-        ButtonGroup.create(scarAnno, children);
         return hBox;
     }
 

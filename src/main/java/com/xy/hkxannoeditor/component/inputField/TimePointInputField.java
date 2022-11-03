@@ -1,4 +1,4 @@
-package com.xy.hkxannoeditor.component;
+package com.xy.hkxannoeditor.component.inputField;
 
 import com.sun.javafx.scene.control.DoubleField;
 import com.xy.hkxannoeditor.entity.bo.annotations.HkxAnno;

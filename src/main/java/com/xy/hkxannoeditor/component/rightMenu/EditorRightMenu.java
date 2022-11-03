@@ -1,4 +1,4 @@
-package com.xy.hkxannoeditor.component;
+package com.xy.hkxannoeditor.component.rightMenu;
 
 import com.xy.hkxannoeditor.Const;
 import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;

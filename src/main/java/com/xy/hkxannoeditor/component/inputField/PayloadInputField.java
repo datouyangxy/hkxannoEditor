@@ -1,4 +1,4 @@
-package com.xy.hkxannoeditor.component;
+package com.xy.hkxannoeditor.component.inputField;
 
 import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.config.AnnoProperty;

@@ -1,5 +1,7 @@
-package com.xy.hkxannoeditor.component;
+package com.xy.hkxannoeditor.component.tableCell;
 
+import com.xy.hkxannoeditor.component.inputField.NameInputField;
+import com.xy.hkxannoeditor.component.inputField.PayloadInputField;
 import com.xy.hkxannoeditor.entity.bo.annotations.HkxAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
 import com.xy.hkxannoeditor.entity.enums.ColumnName;

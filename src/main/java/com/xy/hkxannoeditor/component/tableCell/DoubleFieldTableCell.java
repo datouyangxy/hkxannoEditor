@@ -1,6 +1,7 @@
-package com.xy.hkxannoeditor.component;
+package com.xy.hkxannoeditor.component.tableCell;
 
 import com.sun.javafx.scene.control.DoubleField;
+import com.xy.hkxannoeditor.component.inputField.TimePointInputField;
 import com.xy.hkxannoeditor.entity.bo.annotations.HkxAnno;
 import javafx.event.Event;
 import javafx.scene.control.TableCell;

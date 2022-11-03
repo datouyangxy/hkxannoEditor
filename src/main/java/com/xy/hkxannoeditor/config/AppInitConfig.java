@@ -1,6 +1,6 @@
 package com.xy.hkxannoeditor.config;
 
-import com.xy.hkxannoeditor.component.EditorRightMenu;
+import com.xy.hkxannoeditor.component.rightMenu.EditorRightMenu;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
 import javafx.scene.control.ContextMenu;
 import org.springframework.context.annotation.Bean;

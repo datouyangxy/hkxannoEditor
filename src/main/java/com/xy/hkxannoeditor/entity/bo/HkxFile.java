@@ -27,7 +27,9 @@ public class HkxFile {
     private final File hkx;
     private final File txt;
     private final List<String> metaList;
-    private final ObservableList<StandardAnno> standardList;
+    private final ObservableList<StandardAnno> commonList;
+    private final ObservableList<StandardAnno> mcoList;
+    private final ObservableList<StandardAnno> precsisonList;
     private final ObservableList<AmrAnno> amrList;
     private final ObservableList<ScarAnno> scarList;
     private final ObservableList<String> customList;
@@ -43,7 +45,9 @@ public class HkxFile {
         if (hkx != null && hkx.isFile()) {
             this.txt = new File(hkx.getPath().split("\\.")[0] + ".txt");
             metaList = new ArrayList<>();
-            standardList = FXCollections.observableArrayList();
+            commonList = FXCollections.observableArrayList();
+            mcoList = FXCollections.observableArrayList();
+            precsisonList = FXCollections.observableArrayList();
             amrList = FXCollections.observableArrayList();
             scarList = FXCollections.observableArrayList();
             customList = FXCollections.observableArrayList();
@@ -52,7 +56,9 @@ public class HkxFile {
         } else {
             this.txt = null;
             metaList = null;
-            standardList = null;
+            commonList = null;
+            mcoList = null;
+            precsisonList = null;
             amrList = null;
             scarList = null;
             customList = null;
@@ -106,11 +112,23 @@ public class HkxFile {
                 } else {
                     int index = name.indexOf(".");
                     if (index == -1) {
-                        standardList.add(new StandardAnno(timePoint, name, getStandardAnnoType(name, null)));
+                        AnnoType type = getStandardAnnoType(name, null);
+                        switch (type) {
+                            case COMMON -> commonList.add(new StandardAnno(timePoint, name, type));
+                            case MCO -> mcoList.add(new StandardAnno(timePoint, name, type));
+                            case PRECISION -> precsisonList.add(new StandardAnno(timePoint, name, type));
+                            default -> customList.add(anno);
+                        }
                     } else {
                         String payload = name.substring(index + 1);
                         name = name.substring(0, index);
-                        standardList.add(new StandardAnno(timePoint, name, payload, getStandardAnnoType(name, payload)));
+                        AnnoType type = getStandardAnnoType(name, payload);
+                        switch (type) {
+                            case COMMON -> commonList.add(new StandardAnno(timePoint, name, payload, type));
+                            case MCO -> mcoList.add(new StandardAnno(timePoint, name, payload, type));
+                            case PRECISION -> precsisonList.add(new StandardAnno(timePoint, name, payload, type));
+                            default -> customList.add(anno);
+                        }
                     }
                 }
             }
@@ -123,7 +141,13 @@ public class HkxFile {
         for (String meta : metaList)
             sb.append(meta).append(LINE_BREAK);
 
-        for (StandardAnno standardAnno : standardList)
+        for (StandardAnno standardAnno : commonList)
+            sb.append(standardAnno).append(LINE_BREAK);
+
+        for (StandardAnno standardAnno : mcoList)
+            sb.append(standardAnno).append(LINE_BREAK);
+
+        for (StandardAnno standardAnno : precsisonList)
             sb.append(standardAnno).append(LINE_BREAK);
 
         for (AmrAnno amrAnno : amrList)
@@ -175,7 +199,9 @@ public class HkxFile {
 
     private void clearList() {
         metaList.clear();
-        standardList.clear();
+        commonList.clear();
+        mcoList.clear();
+        precsisonList.clear();
         amrList.clear();
         scarList.clear();
         customList.clear();
