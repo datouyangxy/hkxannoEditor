@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.config.AnnoProperty;
 import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
+import com.xy.hkxannoeditor.entity.bo.annotations.CustomAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
 import com.xy.hkxannoeditor.entity.enums.AnnoType;
@@ -32,13 +33,14 @@ public class HkxFile {
     private final ObservableList<StandardAnno> precsisonList;
     private final ObservableList<AmrAnno> amrList;
     private final ObservableList<ScarAnno> scarList;
-    private final ObservableList<String> customList;
+    private final ObservableList<CustomAnno> customList;
     private final AnnoProperties annoProperties;
     private final ObjectMapper objectMapper;
 
     private String originAnno = null;
     private boolean edited = false;
     private boolean saved = true;
+    private final String splitLetter = " ";
 
     public HkxFile(File hkx) {
         this.hkx = hkx;
@@ -82,7 +84,7 @@ public class HkxFile {
             if (isMeta(anno)) {
                 metaList.add(anno);
             } else {
-                String[] annoArray = anno.split(" ");
+                String[] annoArray = anno.split(splitLetter);
                 Double timePoint = Double.parseDouble(annoArray[0]);
                 String name = annoArray[1];
 
@@ -105,7 +107,8 @@ public class HkxFile {
                             ScarJson scarJson = objectMapper.readValue(json, ScarJson.class);
                             scarList.add(new ScarAnno(timePoint, name, scarJson));
                         } catch (JsonProcessingException e) {
-                            customList.add(anno);
+                            name = getReJointName(new StringBuilder(name), annoArray);
+                            customList.add(new CustomAnno(timePoint, name));
                         }
                     }
 
@@ -117,22 +120,31 @@ public class HkxFile {
                             case COMMON -> commonList.add(new StandardAnno(timePoint, name, type));
                             case MCO -> mcoList.add(new StandardAnno(timePoint, name, type));
                             case PRECISION -> precsisonList.add(new StandardAnno(timePoint, name, type));
-                            default -> customList.add(anno);
+                            default ->
+                                    customList.add(new CustomAnno(timePoint, getReJointName(new StringBuilder(name), annoArray)));
                         }
                     } else {
-                        String payload = name.substring(index + 1);
+                        String payload = getReJointName(new StringBuilder(name.substring(index + 1)), annoArray);
                         name = name.substring(0, index);
                         AnnoType type = getStandardAnnoType(name, payload);
                         switch (type) {
                             case COMMON -> commonList.add(new StandardAnno(timePoint, name, payload, type));
                             case MCO -> mcoList.add(new StandardAnno(timePoint, name, payload, type));
                             case PRECISION -> precsisonList.add(new StandardAnno(timePoint, name, payload, type));
-                            default -> customList.add(anno);
+                            default ->
+                                    customList.add(new CustomAnno(timePoint, name + "." + getReJointName(new StringBuilder(name), annoArray)));
                         }
                     }
                 }
             }
         }
+    }
+
+    private String getReJointName(StringBuilder temp, String[] annoArray) {
+        for (int i = 2; i < annoArray.length; i++) {
+            temp.append(splitLetter).append(annoArray[i]);
+        }
+        return temp.toString();
     }
 
     public String serialization() {
@@ -156,7 +168,7 @@ public class HkxFile {
         for (ScarAnno scarAnno : scarList)
             sb.append(scarAnno).append(LINE_BREAK);
 
-        for (String customAnno : customList)
+        for (CustomAnno customAnno : customList)
             sb.append(customAnno).append(LINE_BREAK);
 
         return sb.toString();
@@ -177,7 +189,7 @@ public class HkxFile {
             return COMMON;
         if (annoProperties.getAnnotations(PRECISION).contains(annoProperty))
             return PRECISION;
-        return null;
+        return CUSTOM;
     }
 
     private boolean isMeta(String anno) {

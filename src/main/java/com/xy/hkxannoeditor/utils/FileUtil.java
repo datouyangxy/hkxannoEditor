@@ -70,7 +70,16 @@ public class FileUtil {
     }
 
     public static void writeFile(String text, String filepath) {
-        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filepath));) {
+        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filepath))) {
+            bos.write(text.getBytes(StandardCharsets.UTF_8));
+            bos.flush();
+        } catch (Throwable e) {
+            log.error(e.getLocalizedMessage());
+        }
+    }
+
+    public static void writeFile(String text, File file) {
+        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
             bos.write(text.getBytes(StandardCharsets.UTF_8));
             bos.flush();
         } catch (Throwable e) {

@@ -1,13 +1,17 @@
 package com.xy.hkxannoeditor.component.tableCell;
 
+import com.xy.hkxannoeditor.component.inputField.IdleAnimationInputField;
 import com.xy.hkxannoeditor.component.inputField.NameInputField;
 import com.xy.hkxannoeditor.component.inputField.PayloadInputField;
+import com.xy.hkxannoeditor.component.inputField.ScarTypeInputField;
 import com.xy.hkxannoeditor.entity.bo.annotations.HkxAnno;
+import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
-import com.xy.hkxannoeditor.entity.enums.ColumnName;
 import javafx.event.Event;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+
+import static com.xy.hkxannoeditor.entity.enums.ColumnName.*;
 
 public class AutoCompletionFieldTableCell<T extends HkxAnno> extends TableCell<T, String> {
 
@@ -81,10 +85,14 @@ public class AutoCompletionFieldTableCell<T extends HkxAnno> extends TableCell<T
 
     private void createAutoCompletionTextField() {
         String colName = getTableColumn().getText();
-        if (colName.equals(ColumnName.name.name()))
+        if (colName.equals(name.name()))
             textField = NameInputField.create(getTableRow().getItem());
-        else if (colName.equals(ColumnName.payload.name()))
+        else if (colName.equals(payload.name()))
             textField = PayloadInputField.create((StandardAnno) getTableRow().getItem());
+        else if (colName.equals(IdleAnimation.name()))
+            textField = IdleAnimationInputField.create((ScarAnno) getTableRow().getItem());
+        else if (colName.equals(Type.name()))
+            textField = ScarTypeInputField.create((ScarAnno) getTableRow().getItem());
     }
 
     private String getString() {

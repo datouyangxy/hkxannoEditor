@@ -31,4 +31,6 @@ public interface EditorService {
     void dumpAnno(HkxFile file);
 
     void updateAnno(HkxFile file);
+
+    void updateAllAnno();
 }

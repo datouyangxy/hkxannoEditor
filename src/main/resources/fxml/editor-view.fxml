@@ -45,9 +45,8 @@
             <Menu mnemonicParsing="false" text="Open Recent"/>
             <SeparatorMenuItem mnemonicParsing="false"/>
             <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeApp" text="Close"/>
-            <MenuItem mnemonicParsing="false" text="Save"/>
-            <MenuItem mnemonicParsing="false" text="Save As…"/>
-            <MenuItem mnemonicParsing="false" text="Revert"/>
+            <MenuItem mnemonicParsing="false" text="SaveAll" onAction="#saveAll"/>
+            <MenuItem mnemonicParsing="false" text="RevertAll" onAction="#revert"/>
             <SeparatorMenuItem mnemonicParsing="false"/>
             <MenuItem mnemonicParsing="false" text="Preferences…"/>
             <SeparatorMenuItem mnemonicParsing="false"/>
@@ -75,12 +74,6 @@
         </ScrollPane>
         <ScrollPane fx:id="editUI">
             <VBox fx:id="editContent" prefWidth="${editUI.width}">
-                <Label fx:id="label1" alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="5.0"
-                       style="&#10;" text="编辑界面" textAlignment="CENTER" textFill="#5e5e5e">
-                    <font>
-                        <Font size="18.0"/>
-                    </font>
-                </Label>
                 <TitledPane fx:id="metaPane" animated="false" expanded="false" text="meta annotation">
                     <VBox fx:id="metaVBox"/>
                 </TitledPane>
@@ -99,7 +92,7 @@
                 <TitledPane fx:id="mcoPane" animated="false" expanded="false" text="mco">
                     <graphic>
                         <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false"
-                                onMouseClicked="#onCommonAdd" text="+"/>
+                                onMouseClicked="#onMcoAdd" text="+"/>
                     </graphic>
                     <TableView fx:id="mcoTable" editable="true" prefWidth="${editUI.width}"
                                tableMenuButtonVisible="true">
@@ -111,7 +104,7 @@
                 <TitledPane fx:id="precisionPane" animated="false" expanded="false" text="precision">
                     <graphic>
                         <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false"
-                                onMouseClicked="#onCommonAdd" text="+"/>
+                                onMouseClicked="#onPrecisionAdd" text="+"/>
                     </graphic>
                     <TableView fx:id="precisionTable" editable="true" prefWidth="${editUI.width}"
                                tableMenuButtonVisible="true">
@@ -124,19 +117,34 @@
                     <graphic>
                         <Button mnemonicParsing="false" onMouseClicked="#onAmrAdd" text="+"/>
                     </graphic>
-                    <VBox fx:id="amrVBox"/>
+                    <TableView fx:id="amrTable" editable="true" prefWidth="${editUI.width}"
+                               tableMenuButtonVisible="true">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                    </TableView>
                 </TitledPane>
                 <TitledPane fx:id="scarPane" animated="false" expanded="false" text="SCAR">
                     <graphic>
                         <Button mnemonicParsing="false" onMouseClicked="#onScarAdd" text="+"/>
                     </graphic>
-                    <VBox fx:id="scarVBox"/>
+                    <TableView fx:id="scarTable" editable="true" prefWidth="${editUI.width}"
+                               tableMenuButtonVisible="true">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                    </TableView>
                 </TitledPane>
                 <TitledPane fx:id="customPane" animated="false" expanded="false" text="custom">
                     <graphic>
                         <Button mnemonicParsing="false" onMouseClicked="#onCustomAdd" text="+"/>
                     </graphic>
-                    <VBox fx:id="customVBox"/>
+                    <TableView fx:id="customTable" editable="true" prefWidth="${editUI.width}"
+                               tableMenuButtonVisible="true">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                    </TableView>
                 </TitledPane>
             </VBox>
         </ScrollPane>

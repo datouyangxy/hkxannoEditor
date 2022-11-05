@@ -25,6 +25,7 @@ import java.util.Map;
 
 import static com.xy.hkxannoeditor.Const.*;
 import static com.xy.hkxannoeditor.utils.FileUtil.readFile;
+import static com.xy.hkxannoeditor.utils.FileUtil.writeFile;
 import static java.lang.ProcessBuilder.Redirect.INHERIT;
 
 @Service
@@ -56,14 +57,22 @@ public class EditorServiceImpl implements EditorService {
             file.setOriginAnno(null);
             log.error(e.getMessage());
         }
-        hkxFileMap.put(file.toString(), file);
+        hkxFileMap.put(file.getHkx().getPath(), file);
     }
 
     /**
      * update fixed annos to txt files.
      */
     public void updateAnno(HkxFile file) {
+        writeFile(file.serialization(), file.getTxt());
         executeCmd(file, UPDATE_COMMAND_TEMPLATE);
+    }
+
+    @Override
+    public void updateAllAnno() {
+        hkxFileMap.forEach((key, file) -> {
+            updateAnno(file);
+        });
     }
 
     public TreeItem<HkxFile> createRoot() {

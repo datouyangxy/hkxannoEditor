@@ -7,5 +7,12 @@ public enum ColumnName {
     X,
     Y,
     Z,
-    R
+    R,
+    IdleAnimation,
+    MinDistance,
+    MaxDistance,
+    StartAngle,
+    EndAngle,
+    Chance,
+    Type
 }

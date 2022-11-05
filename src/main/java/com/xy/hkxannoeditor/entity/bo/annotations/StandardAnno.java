@@ -39,7 +39,7 @@ public class StandardAnno extends HkxAnno {
     @Override
     public String toString() {
         if (StringUtils.isNotEmpty(payload.get()))
-            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name, "." + payload.get());
-        return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name, payload.get());
+            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name.get(), "." + payload.get());
+        return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name.get(), "");
     }
 }

@@ -1,10 +1,7 @@
 package com.xy.hkxannoeditor.component.rightMenu;
 
 import com.xy.hkxannoeditor.Const;
-import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.HkxAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
+import com.xy.hkxannoeditor.entity.bo.annotations.*;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -88,13 +85,13 @@ public class EditorRightMenu {
             ObservableList items = tableView.getItems();
             Object anno = items.get(row);
             if (anno instanceof StandardAnno) {
-                items.add(row, new StandardAnno((double) 0, "", ((HkxAnno) anno).getType()));
+                items.add(row, new StandardAnno(0d, "", ((HkxAnno) anno).getType()));
             } else if (anno instanceof AmrAnno) {
-                items.add(row, new AmrAnno((double) 0, ""));
+                items.add(row, new AmrAnno(0d, ""));
             } else if (anno instanceof ScarAnno) {
-                items.add(row, new ScarAnno((double) 0, ""));
-            } else if (anno instanceof String) {
-                items.add(row, "");
+                items.add(row, new ScarAnno());
+            } else if (anno instanceof CustomAnno) {
+                items.add(row, new CustomAnno(0d, ""));
             }
             tableView.setPrefHeight(Const.ROW_HEIGHT * (1 + items.size()));
         });
@@ -112,13 +109,13 @@ public class EditorRightMenu {
             Object anno = items.get(row);
             int newRow = row + 1;
             if (anno instanceof StandardAnno) {
-                items.add(newRow, new StandardAnno((double) 0, "", ((HkxAnno) anno).getType()));
+                items.add(newRow, new StandardAnno(0d, "", ((HkxAnno) anno).getType()));
             } else if (anno instanceof AmrAnno) {
-                items.add(newRow, new AmrAnno((double) 0, ""));
+                items.add(newRow, new AmrAnno(0d, ""));
             } else if (anno instanceof ScarAnno) {
-                items.add(newRow, new ScarAnno((double) 0, ""));
-            } else if (anno instanceof String) {
-                items.add(newRow, "");
+                items.add(newRow, new ScarAnno());
+            } else if (anno instanceof CustomAnno) {
+                items.add(newRow, new CustomAnno(0d, ""));
             }
             tableView.setPrefHeight(Const.ROW_HEIGHT * (1 + items.size()));
         });

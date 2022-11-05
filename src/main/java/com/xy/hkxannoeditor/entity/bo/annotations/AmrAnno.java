@@ -29,14 +29,14 @@ public class AmrAnno extends HkxAnno {
 
     public AmrAnno(Double timePoint, String name, Float x, Float y, Float z) {
         super(timePoint, name);
-        this.x.set(0.f);
-        this.y.set(0.f);
-        this.z.set(0.f);
+        this.x.set(x);
+        this.y.set(y);
+        this.z.set(z);
     }
 
     public AmrAnno(Double timePoint, String name, Float r) {
         super(timePoint, name);
-        this.r.set(0.f);
+        this.r.set(r);
     }
 
     public void setR(float r) {
@@ -62,6 +62,8 @@ public class AmrAnno extends HkxAnno {
 
     @Override
     public String toString() {
-        return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name, x, y, z);
+        if (r.get() != 0d)
+            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name.get(), r.get());
+        return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name.get(), x.get(), y.get(), z.get());
     }
 }

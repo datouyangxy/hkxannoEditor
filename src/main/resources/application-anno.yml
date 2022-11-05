@@ -13,14 +13,21 @@ anno:
       - name: PIE
     MCO:
       - name: MCO_WinOpen
+        description: 打开轻攻击区间
       - name: MCO_WinClose
+        description: 关闭轻攻击区间
       - name: MCO_PowerWinOpen
+        description: 打开重攻击区间
       - name: MCO_PowerWinClose
+        description: 关闭重攻击区间
       - name: MCO_Recovery
+        description: 恢复自由移动
       - name: MCO_ChargedAttack
+        description: 进入蓄力攻击
       - name: MCO_TransitionOpen
       - name: MCO_TransitionClose
       - name: PIE
+        description: 注解头（来自于payload框架，载体，无特殊意义）
     PRECISION:
       - name: Collision_AttackStart
       - name: Collision_Add

@@ -23,9 +23,13 @@ public class ScarAnno extends HkxAnno {
 
     public ScarAnno(Double timePoint, String name) {
         super(timePoint, name);
-        this.scarJson = null;
+        scarJson = null;
     }
 
+    public ScarAnno() {
+        super(0d, "");
+        this.scarJson = new ScarJson("ADXP_NPCNormalAttack");
+    }
 
     @Override
     public AnnoType getType() {
@@ -41,7 +45,7 @@ public class ScarAnno extends HkxAnno {
                 scarJsonString = "";
             else
                 scarJsonString = objectMapper.writeValueAsString(scarJson);
-            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name, scarJsonString);
+            return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name.get(), scarJsonString);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
