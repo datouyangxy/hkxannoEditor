@@ -103,12 +103,6 @@ public class EditorController {
     @FXML
     public void initialize() {
         editContent.setVisible(false);
-        standardInitializer.init(editUI, commonTable);
-        standardInitializer.init(editUI, mcoTable);
-        standardInitializer.init(editUI, precisionTable);
-        amrInitializer.init(editUI, amrTable);
-        scarInitializer.init(editUI, scarTable);
-        customInitializer.init(editUI, customTable);
     }
 
     @FXML
@@ -122,6 +116,8 @@ public class EditorController {
         fileTree.setRoot(editor.createRoot());
         fileTree.refresh();
         fileContainer.clear();
+        setCurrentFile(null);
+        editContent.setVisible(false);
     }
 
     @FXML
@@ -147,7 +143,7 @@ public class EditorController {
         fileTree.setRoot(null);
         fileTree.refresh();
         fileContainer.clear();
-        currentFile = null;
+        setCurrentFile(null);
         editContent.setVisible(false);
     }
 
@@ -182,6 +178,12 @@ public class EditorController {
     }
 
     private void refreshEditGUI() {
+        standardInitializer.init(editUI, commonTable);
+        standardInitializer.init(editUI, mcoTable);
+        standardInitializer.init(editUI, precisionTable);
+        amrInitializer.init(editUI, amrTable);
+        scarInitializer.init(editUI, scarTable);
+        customInitializer.init(editUI, customTable);
         editContent.setVisible(true);
         refreshMeta();
         refreshStandard();

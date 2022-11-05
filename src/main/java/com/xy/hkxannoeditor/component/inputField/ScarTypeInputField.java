@@ -8,7 +8,7 @@ import org.controlsfx.control.textfield.TextFields;
 public class ScarTypeInputField implements InputFieldComponent{
     public static TextField create(ScarAnno scarAnno) {
         TextField scarType_TF = TextFields.createClearableTextField();
-        scarType_TF.textProperty().bind(scarAnno.getScarJson().getType());
+        scarType_TF.textProperty().bindBidirectional(scarAnno.getScarJson().getType());
         TextFields.bindAutoCompletion(scarType_TF,ScarType.values());
         return scarType_TF;
     }

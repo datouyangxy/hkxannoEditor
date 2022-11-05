@@ -3,10 +3,12 @@ package com.xy.hkxannoeditor.entity.bo.annotations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xy.hkxannoeditor.entity.bo.ScarJson;
+import com.xy.hkxannoeditor.entity.bo.ScarJsonBase;
 import com.xy.hkxannoeditor.entity.enums.AnnoType;
 import com.xy.hkxannoeditor.utils.SpringUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 
@@ -23,7 +25,7 @@ public class ScarAnno extends HkxAnno {
 
     public ScarAnno(Double timePoint, String name) {
         super(timePoint, name);
-        scarJson = null;
+        scarJson = new ScarJson();
     }
 
     public ScarAnno() {
@@ -41,10 +43,19 @@ public class ScarAnno extends HkxAnno {
         ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
         try {
             String scarJsonString;
-            if (scarJson == null)
+            if (StringUtils.isEmpty(scarJson.getIdleAnimation().get()))
                 scarJsonString = "";
-            else
-                scarJsonString = objectMapper.writeValueAsString(scarJson);
+            else {
+                ScarJsonBase scarJsonBase = new ScarJsonBase(
+                        scarJson.getIdleAnimation().get()
+                        , scarJson.getMinDistance().get()
+                        , scarJson.getMaxDistance().get()
+                        , scarJson.getStartAngle().get()
+                        , scarJson.getEndAngle().get()
+                        , scarJson.getChance().get()
+                        , scarJson.getType().get());
+                scarJsonString = objectMapper.writeValueAsString(scarJsonBase);
+            }
             return MessageFormat.format(outTemplate, String.format("%.6f", timePoint.get()), name.get(), scarJsonString);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);

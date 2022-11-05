@@ -8,7 +8,6 @@ import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
 import com.xy.hkxannoeditor.entity.enums.ColumnName;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.TextFieldTableCell;
 
 public class TableColumnFactory extends AbstractComponentFactory {
     @Override
@@ -58,7 +57,7 @@ public class TableColumnFactory extends AbstractComponentFactory {
             }
             case IdleAnimation -> {
                 TableColumn<ScarAnno, String> idleAnimation = new TableColumn<>(colName.name());
-                idleAnimation.setCellFactory(TextFieldTableCell.forTableColumn());
+                idleAnimation.setCellFactory(AutoCompletionFieldTableCell.forTableColumn());
                 idleAnimation.setCellValueFactory(anno -> anno.getValue().getScarJson().getIdleAnimation());
                 return idleAnimation;
             }

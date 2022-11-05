@@ -1,5 +1,6 @@
 package com.xy.hkxannoeditor.entity.bo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xy.hkxannoeditor.entity.enums.ScarType;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -13,12 +14,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScarJson {
+
     private StringProperty IdleAnimation = new SimpleStringProperty();
+
     private DoubleProperty MinDistance = new SimpleDoubleProperty();
+
     private DoubleProperty MaxDistance = new SimpleDoubleProperty();
+
     private DoubleProperty StartAngle = new SimpleDoubleProperty();
+
     private DoubleProperty EndAngle = new SimpleDoubleProperty();
+
     private DoubleProperty Chance = new SimpleDoubleProperty();
+
     private StringProperty Type = new SimpleStringProperty();
 
     public ScarJson(String IdleAnimation) {
@@ -31,30 +39,32 @@ public class ScarJson {
         this.Type.set(ScarType.RA.name());
     }
 
+    @JsonProperty("IdleAnimation")
     public void setIdleAnimation(String idleAnimation) {
         this.IdleAnimation.set(idleAnimation);
     }
 
-    public void setMinDistance(double minDistance) {
+    @JsonProperty("MinDistance")
+    public void setMinDistance(Double minDistance) {
         this.MinDistance.set(minDistance);
     }
-
-    public void setMaxDistance(double maxDistance) {
+    @JsonProperty("MaxDistance")
+    public void setMaxDistance(Double maxDistance) {
         this.MaxDistance.set(maxDistance);
     }
-
-    public void setStartAngle(double startAngle) {
+    @JsonProperty("StartAngle")
+    public void setStartAngle(Double startAngle) {
         this.StartAngle.set(startAngle);
     }
-
-    public void setEndAngle(double endAngle) {
+    @JsonProperty("EndAngle")
+    public void setEndAngle(Double endAngle) {
         this.EndAngle.set(endAngle);
     }
-
-    public void setChance(double chance) {
+    @JsonProperty("Chance")
+    public void setChance(Double chance) {
         this.Chance.set(chance);
     }
-
+    @JsonProperty("Type")
     public void setType(String type) {
         this.Type.set(type);
     }

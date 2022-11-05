@@ -102,12 +102,12 @@ public class HkxFile {
                     if (index == -1) {
                         scarList.add(new ScarAnno(timePoint, name));
                     } else {
-                        String json = name.substring(index + 1);
+                        String json = getReJointString(new StringBuilder(name.substring(index)), annoArray);
                         try {
                             ScarJson scarJson = objectMapper.readValue(json, ScarJson.class);
-                            scarList.add(new ScarAnno(timePoint, name, scarJson));
+                            scarList.add(new ScarAnno(timePoint, name.substring(0, index), scarJson));
                         } catch (JsonProcessingException e) {
-                            name = getReJointName(new StringBuilder(name), annoArray);
+                            name = getReJointString(new StringBuilder(name), annoArray);
                             customList.add(new CustomAnno(timePoint, name));
                         }
                     }
@@ -121,10 +121,10 @@ public class HkxFile {
                             case MCO -> mcoList.add(new StandardAnno(timePoint, name, type));
                             case PRECISION -> precsisonList.add(new StandardAnno(timePoint, name, type));
                             default ->
-                                    customList.add(new CustomAnno(timePoint, getReJointName(new StringBuilder(name), annoArray)));
+                                    customList.add(new CustomAnno(timePoint, getReJointString(new StringBuilder(name), annoArray)));
                         }
                     } else {
-                        String payload = getReJointName(new StringBuilder(name.substring(index + 1)), annoArray);
+                        String payload = getReJointString(new StringBuilder(name.substring(index + 1)), annoArray);
                         name = name.substring(0, index);
                         AnnoType type = getStandardAnnoType(name, payload);
                         switch (type) {
@@ -132,7 +132,7 @@ public class HkxFile {
                             case MCO -> mcoList.add(new StandardAnno(timePoint, name, payload, type));
                             case PRECISION -> precsisonList.add(new StandardAnno(timePoint, name, payload, type));
                             default ->
-                                    customList.add(new CustomAnno(timePoint, name + "." + getReJointName(new StringBuilder(name), annoArray)));
+                                    customList.add(new CustomAnno(timePoint, name + "." + getReJointString(new StringBuilder(name), annoArray)));
                         }
                     }
                 }
@@ -140,7 +140,7 @@ public class HkxFile {
         }
     }
 
-    private String getReJointName(StringBuilder temp, String[] annoArray) {
+    private String getReJointString(StringBuilder temp, String[] annoArray) {
         for (int i = 2; i < annoArray.length; i++) {
             temp.append(splitLetter).append(annoArray[i]);
         }

@@ -1,19 +1,11 @@
 package com.xy.hkxannoeditor.service;
 
-import com.xy.hkxannoeditor.component.inputField.NameInputField;
-import com.xy.hkxannoeditor.component.inputField.PayloadInputField;
 import com.xy.hkxannoeditor.config.AnnoProperties;
 import com.xy.hkxannoeditor.entity.bo.HkxFile;
-import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
-import com.xy.hkxannoeditor.entity.enums.AnnoType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.HBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -103,49 +95,6 @@ public class EditorServiceImpl implements EditorService {
         Label metaLabel = new Label(meta);
         metaLabel.setPrefHeight(ROW_HEIGHT);
         return metaLabel;
-    }
-
-    @Override
-    public HBox createStandardView(AnnoType annoType, StandardAnno standardAnno) {
-        if (standardAnno.getAnnoType() == annoType) {
-            HBox hBox = new HBox();
-            hBox.setPrefHeight(ROW_HEIGHT);
-            ObservableList<Node> children = hBox.getChildren();
-
-//            TimePointInputField.create(standardAnno, children);
-            NameInputField.create(standardAnno);
-            PayloadInputField.create(standardAnno);
-
-            return hBox;
-        }
-        return null;
-    }
-
-    @Override
-    public HBox createAmrView(AmrAnno amrAnno) {
-        HBox hBox = new HBox();
-        hBox.setPrefHeight(ROW_HEIGHT);
-        ObservableList<Node> children = hBox.getChildren();
-
-//        TimePointInputField.create(amrAnno, children);
-        NameInputField.create(amrAnno);
-        return hBox;
-    }
-
-    @Override
-    public HBox createScarView(ScarAnno scarAnno) {
-        HBox hBox = new HBox();
-        hBox.setPrefHeight(ROW_HEIGHT);
-        ObservableList<Node> children = hBox.getChildren();
-
-//        TimePointInputField.create(scarAnno, children);
-        NameInputField.create(scarAnno);
-        return hBox;
-    }
-
-    @Override
-    public HBox createCustomView(String custom) {
-        return new HBox();
     }
 
     private TreeItem<HkxFile> createNode(final HkxFile f) {
