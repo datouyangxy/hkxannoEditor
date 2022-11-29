@@ -2,9 +2,8 @@ package com.xy.hkxannoeditor.component.tableCell;
 
 import com.sun.javafx.scene.control.DoubleField;
 import com.xy.hkxannoeditor.component.inputField.DoubleInputField;
-import com.xy.hkxannoeditor.entity.bo.annotations.AmrAnno;
 import com.xy.hkxannoeditor.entity.bo.annotations.HkxAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
+import javafx.beans.property.DoubleProperty;
 import javafx.event.Event;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -12,17 +11,23 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
-import static com.xy.hkxannoeditor.entity.enums.ColumnName.*;
-
 public class DoubleFieldTableCell<T extends HkxAnno> extends TableCell<T, Number> {
 
-    public static <T extends HkxAnno> Callback<TableColumn<T, Number>, TableCell<T, Number>> forTableColumn() {
-        return tableColumn -> new DoubleFieldTableCell<>();
+    public static <T extends HkxAnno> Callback<TableColumn<T, Number>, TableCell<T, Number>> forTableColumn(
+            Callback<T, DoubleProperty> bindValue
+    ) {
+        return tableColumn -> new DoubleFieldTableCell<>(bindValue);
     }
 
     private DoubleField doubleField;
+    private Callback<T, DoubleProperty> bindValue;
 
     public DoubleFieldTableCell() {
+        this.getStyleClass().add("text-field-table-cell");
+    }
+
+    public DoubleFieldTableCell(Callback<T, DoubleProperty> bindValue) {
+        this.bindValue = bindValue;
         this.getStyleClass().add("text-field-table-cell");
     }
 
@@ -83,27 +88,7 @@ public class DoubleFieldTableCell<T extends HkxAnno> extends TableCell<T, Number
     }
 
     private void createDoubleField() {
-        String colName = getTableColumn().getText();
-        if (colName.equals(time_point.name()))
-            doubleField = DoubleInputField.create(getTableRow().getItem().getTimePoint());
-        else if (colName.equals(X.name()))
-            doubleField = DoubleInputField.create(((AmrAnno) getTableRow().getItem()).getX());
-        else if (colName.equals(Y.name()))
-            doubleField = DoubleInputField.create(((AmrAnno) getTableRow().getItem()).getY());
-        else if (colName.equals(Z.name()))
-            doubleField = DoubleInputField.create(((AmrAnno) getTableRow().getItem()).getZ());
-        else if (colName.equals(R.name()))
-            doubleField = DoubleInputField.create(((AmrAnno) getTableRow().getItem()).getR());
-        else if (colName.equals(MinDistance.name()))
-            doubleField = DoubleInputField.create(((ScarAnno) getTableRow().getItem()).getScarJson().getMinDistance());
-        else if (colName.equals(MaxDistance.name()))
-            doubleField = DoubleInputField.create(((ScarAnno) getTableRow().getItem()).getScarJson().getMaxDistance());
-        else if (colName.equals(StartAngle.name()))
-            doubleField = DoubleInputField.create(((ScarAnno) getTableRow().getItem()).getScarJson().getStartAngle());
-        else if (colName.equals(EndAngle.name()))
-            doubleField = DoubleInputField.create(((ScarAnno) getTableRow().getItem()).getScarJson().getEndAngle());
-        else if (colName.equals(Chance.name()))
-            doubleField = DoubleInputField.create(((ScarAnno) getTableRow().getItem()).getScarJson().getChance());
+        doubleField = DoubleInputField.create(bindValue.call(getTableRow().getItem()));
     }
 
     private String getString() {

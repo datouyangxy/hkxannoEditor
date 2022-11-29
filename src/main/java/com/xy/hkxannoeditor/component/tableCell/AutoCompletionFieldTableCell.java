@@ -1,27 +1,27 @@
 package com.xy.hkxannoeditor.component.tableCell;
 
-import com.xy.hkxannoeditor.component.inputField.IdleAnimationInputField;
-import com.xy.hkxannoeditor.component.inputField.NameInputField;
-import com.xy.hkxannoeditor.component.inputField.PayloadInputField;
-import com.xy.hkxannoeditor.component.inputField.ScarTypeInputField;
 import com.xy.hkxannoeditor.entity.bo.annotations.HkxAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.ScarAnno;
-import com.xy.hkxannoeditor.entity.bo.annotations.StandardAnno;
 import javafx.event.Event;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 
-import static com.xy.hkxannoeditor.entity.enums.ColumnName.*;
-
 public class AutoCompletionFieldTableCell<T extends HkxAnno> extends TableCell<T, String> {
 
-    public static <T extends HkxAnno> Callback<TableColumn<T, String>, TableCell<T, String>> forTableColumn() {
-        return tableColumn -> new AutoCompletionFieldTableCell<>();
+    public static <T extends HkxAnno> Callback<TableColumn<T, String>, TableCell<T, String>> forTableColumn(
+            Callback<T, TextField> bindValue
+    ) {
+        return tableColumn -> new AutoCompletionFieldTableCell<>(bindValue);
     }
 
+    private Callback<T, TextField> createField;
     private TextField textField;
 
     public AutoCompletionFieldTableCell() {
+        this.getStyleClass().add("text-field-table-cell");
+    }
+
+    public AutoCompletionFieldTableCell(Callback<T, TextField> createField) {
+        this.createField = createField;
         this.getStyleClass().add("text-field-table-cell");
     }
 
@@ -84,15 +84,7 @@ public class AutoCompletionFieldTableCell<T extends HkxAnno> extends TableCell<T
     }
 
     private void createAutoCompletionTextField() {
-        String colName = getTableColumn().getText();
-        if (colName.equals(name.name()))
-            textField = NameInputField.create(getTableRow().getItem());
-        else if (colName.equals(payload.name()))
-            textField = PayloadInputField.create((StandardAnno) getTableRow().getItem());
-        else if (colName.equals(IdleAnimation.name()))
-            textField = IdleAnimationInputField.create((ScarAnno) getTableRow().getItem());
-        else if (colName.equals(Type.name()))
-            textField = ScarTypeInputField.create((ScarAnno) getTableRow().getItem());
+        textField = createField.call(getTableRow().getItem());
     }
 
     private String getString() {
